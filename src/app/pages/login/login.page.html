@@ -1,0 +1,44 @@
+<ion-content>  
+  <p class="p-login">Inicio de sesión</p>
+  
+  <!--<form [formGroup]="formLogin">
+    <ion-label color="danger" *ngIf="formLogin.controls.email.errors?.['required']">
+      Por favor añada el correo.
+    </ion-label>
+    <ion-label color="danger" *ngIf="formLogin.controls.email.errors?.['pattern']">
+      El formato debe ser correcto, ejemplo: a@a.com.
+    </ion-label>
+
+    <ion-item>
+      <ion-input formControlName="email" type="text" placeholder="Correo electrónico" required></ion-input>
+    </ion-item>
+    
+    <ion-label color="danger" *ngIf="formLogin.controls.password.errors?.['required']">
+      Por favor, añada su contraseña.
+    </ion-label>
+    <ion-label color="danger" *ngIf="formLogin.controls.password.errors?.['minlength']">
+      La contraseña debe tener al menos 6 caracteres.
+    </ion-label>
+
+    <ion-item>
+      <ion-input formControlName="password" type="password" placeholder="Contraseña" required></ion-input>
+    </ion-item>
+    
+    <ion-row>
+      <ion-col>
+        <ion-button type="submit" (click)="login_real()" expand="block">Iniciar sesión</ion-button>
+      </ion-col>
+    </ion-row>        
+  </form>-->
+  <form *ngIf="formLogin" [formGroup]="formLogin" (ngSubmit)="login_real()">
+    <ion-item>
+      <ion-input clearInput type="email" class="text" name="email" formControlName="email" placeholder="Email" required></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input clearInput type="password" class="text" name="password" formControlName="password" placeholder="Contraseña" required></ion-input>
+    </ion-item>    
+    <!--<p class="contrasenia-olvidada" routerLink="/forgot-password">He olvidado mi contraseña</p>-->
+    <ion-button class="btn" fill="clear" type="submit" [disabled]="!formLogin.valid">Entrar</ion-button>
+  </form>
+  <span class="irRegistro"><p>¿No tienes una cuenta?</p><p class="acceder" [routerLink]="['/register']">Regístrate</p></span>
+</ion-content>

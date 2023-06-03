@@ -1,0 +1,28 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>dishes</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">dishes</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-list>
+    <ion-row>
+      <ion-col *ngFor="let dish of dishes; let i = index">  
+        <ion-label>
+          <img [src]="dish['image']">        
+          <p>{{ dish['name'] }}</p>         
+          <p>{{ dish['description'] }}</p>         
+          <p>{{ dish['price'] }}</p>         
+        </ion-label>
+      </ion-col>
+    </ion-row>
+  </ion-list>
+
+</ion-content>
+<app-footer></app-footer>

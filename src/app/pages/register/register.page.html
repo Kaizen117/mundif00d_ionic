@@ -1,0 +1,142 @@
+<ion-content>
+  <p class="p-registro">Registro</p>
+  <form *ngIf="formRegister" [formGroup]="formRegister" (ngSubmit)="submitForm()">
+    <ion-label *ngIf="formRegister.controls['name'].invalid && formRegister.controls['name'].touched">
+      Debe introducir sólo letras.
+    </ion-label><ion-item>
+      <ion-input clearInput type="text" class="text" name="name" placeholder="Nombre" [value]="user?.name" formControlName="name" required></ion-input><!--[value]="user?.id"-->      
+    </ion-item>
+    <ion-label *ngIf="formRegister.controls['surname1'].invalid && formRegister.controls['surname1'].touched">
+      Debe introducir sólo letras.
+    </ion-label>
+    <ion-item>
+      <ion-input clearInput type="text" class="text" name="surname1" placeholder="Apellido 1" [value]="user?.surname1" formControlName="surname1" required></ion-input><!--[value]="user?.id"-->      
+    </ion-item>
+    
+    <ion-label *ngIf="formRegister.controls['surname2'].invalid && formRegister.controls['surname2'].touched">
+      Debe introducir sólo letras.
+    </ion-label>
+    <ion-item>
+      <ion-input clearInput type="text" class="text" name="name" placeholder="Apellido 2" [value]="user?.surname2" formControlName="surname2" required></ion-input><!--[value]="user?.id"-->      
+    </ion-item>
+    
+    <ion-label *ngIf="formRegister.controls['telephone'].invalid && formRegister.controls['telephone'].touched">
+      Use un teléfono válido. Ej: 956112233
+    </ion-label>
+    <ion-item>
+      <ion-input clearInput type="number" class="text" name="name" placeholder="Teléfono" [value]="user?.telephone" min="1" max="9" formControlName="telephone" required></ion-input><!--[value]="user?.id"-->      
+    </ion-item>
+    
+    <!--<ion-label *ngIf="formRegister.controls['email'].invalid && formRegister.controls['email'].touched">
+      Introduzca una dirección válida.
+    </ion-label>-->
+    <ion-item>
+      <ion-textarea clearInput class="text" name="address" placeholder="Dirección..." [value]="user?.address" formControlName="address" required></ion-textarea><!--[value]="user?.id"-->      
+    </ion-item>
+    
+    
+    <ion-label *ngIf="formRegister.controls['email'].invalid && formRegister.controls['email'].touched">
+      Introduzca un correo electrónico válido.
+    </ion-label>
+    <ion-item>
+      <ion-input clearInput type="email" class="text" name="email" placeholder="Email" [value]="user?.email" formControlName="email" required></ion-input>  
+    </ion-item>
+
+    <ion-item>
+      <ion-input clearInput type="text" class="text" name="username" placeholder="Nombre de usuario" [value]="user?.username" formControlName="username" required></ion-input><!--[value]="user?.id"-->      
+    </ion-item>
+    
+    <ion-label *ngIf="formRegister.controls['password'].invalid && formRegister.controls['password'].touched">
+      La contraseña debe ser mínimo 6 caracteres
+    </ion-label>
+    <ion-item>
+      <ion-input clearInput type="password" class="text" name="password" placeholder="Contraseña" [value]="user?.password" formControlName="password" required></ion-input>     
+    </ion-item>
+     
+    <ion-label *ngIf="formRegister.controls['c_password'].invalid && formRegister.controls['c_password'].touched">
+      Las contraseñas no coinciden
+    </ion-label>    
+    <ion-item>
+      <ion-input clearInput type="password" class="text" name="c_password" placeholder="Confirmar contraseña" [value]="user?.c_password" formControlName="c_password" required></ion-input>      
+    </ion-item>    
+    
+    <ion-button class="btn" type="submit" fill="clear" [disabled]="!formRegister.valid">Registrarme</ion-button>
+  </form>
+  <span class="irLogin"><p>¿Ya tienes una cuenta?</p><p class="acceder" [routerLink]="['/login']">Acceder</p></span>
+</ion-content>
+
+<!--<ion-content class="container">
+  <form [formGroup]="formRegister" (ngSubmit)="register()" method="post">
+    <ion-label><span>(*)</span> Nombre:</ion-label>
+    <ion-item>
+      <ion-input formControlName="firstname" name="firstname" type="text" placeholder="Introduzca su nombre" required></ion-input>
+    </ion-item>
+    <ion-label color="danger" *ngIf="formRegister.controls.firstname.errors?.['required']">
+      El nombre es requerido.
+    </ion-label>
+    <ion-label color="danger" *ngIf="formRegister.controls.firstname.errors?.['minlength']">
+      El nombre debe tener al menos 3 caracteres.
+    </ion-label>
+    <ion-label color="danger" *ngIf="formRegister.controls.firstname.errors?.['maxlength']">
+      El nombre debe tener como máximo 15 caracteres.
+    </ion-label>
+    <ion-label color="danger" *ngIf="formRegister.controls.firstname.errors?.['pattern']">
+      Solo se permiten letras.
+    </ion-label>
+    <br/>
+    <br/>
+    <ion-label><span>(*)</span> Apellido:</ion-label>
+    <ion-item>
+      <ion-input formControlName="secondname" name="secondname" type="text" placeholder="Introduzca su apellido" required></ion-input>
+    </ion-item>
+    <ion-label color="danger" *ngIf="formRegister.controls.secondname.errors?.['required']">
+      El apellido es requerido.
+    </ion-label>
+    <ion-label color="danger" *ngIf="formRegister.controls.secondname.errors?.['minlength']">
+      El apellido debe tener al menos 2 caracteres.
+    </ion-label>
+    <ion-label color="danger" *ngIf="formRegister.controls.secondname.errors?.['maxlength']">
+      El apellido debe tener como máximo 15 caracteres.
+    </ion-label>
+    <ion-label color="danger" *ngIf="formRegister.controls.secondname.errors?.['pattern']">
+      Solo se permiten letras.
+    </ion-label>
+    <br/>
+    <br/>
+    <ion-label><span>(*)</span> Email:</ion-label>
+    <ion-item>
+      <ion-input formControlName="email" name="email" type="email" placeholder="Email de contacto" required></ion-input>
+    </ion-item>
+    <ion-label color="danger" *ngIf="formRegister.controls.email.errors?.['required']">
+      El correo es requerido.
+    </ion-label>
+    <ion-label color="danger" *ngIf="formRegister.controls.email.errors?.['pattern']">
+      El formato debe ser correcto, ejemplo: a@a.com.
+    </ion-label>
+    <br/>
+    <br/>
+    <ion-label><span>(*)</span> Contraseña:</ion-label>
+    <ion-item>
+      <ion-input formControlName="password" name="password" type="password" placeholder="Contraseña" required></ion-input>
+    </ion-item>
+    <ion-label color="danger" *ngIf="formRegister.controls.password.errors?.['required']">
+      Se requiere de una contraseña.
+    </ion-label>
+    <ion-label color="danger" *ngIf="formRegister.controls.password.errors?.['minlength']">
+      La contraseña debe tener al menos 6 caracteres.
+    </ion-label>
+    <br/>
+    <br/>
+    <ion-label><span>(*)</span> Repita su contraseña:</ion-label>
+    <ion-item>
+      <ion-input formControlName="c_password" name="c_password" type="password" placeholder="Confirmación de la contraseña" required></ion-input>
+    </ion-item> 
+    <ion-label color="danger" *ngIf="formRegister.controls.c_password.errors?.['required']">
+      Se requiere repetir la contraseña.
+    </ion-label>   
+    <ion-label color="danger" *ngIf="formRegister.controls.c_password.errors?.['minlength']">
+      La contraseña debe tener al menos 6 caracteres.
+    </ion-label>
+    <ion-button type="submit" class="btn btn-primary" [disabled]="!formRegister.valid" routerLinkActive="router-link-active" expand="block">Confirmar registro</ion-button>
+  </form>
+</ion-content>-->
