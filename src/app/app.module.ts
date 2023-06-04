@@ -19,7 +19,7 @@ import { FileOpener } from '@awesome-cordova-plugins/file-opener/ngx';*/
     IonicModule.forRoot(),
     AppRoutingModule,
     ComponentsModule,
-    HttpClientModule
+    HttpClientModule,
   ],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],/*File, FileOpener*/
   bootstrap: [AppComponent],

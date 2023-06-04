@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AlertController, NavController, Platform } from '@ionic/angular';
+import { AlertController, LoadingController, NavController, Platform } from '@ionic/angular';
 import { User } from 'src/app/interfaces/user';
 import { ApiService } from 'src/app/services/api.service';
 //import { AuthenticationService } from 'src/app/services/authentication.service';
@@ -34,12 +34,9 @@ export class LoginPage implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private apiService: ApiService,
-    //private utilitiesService: UtilitiesService,
-    private navCtrl: NavController,
     private alertCtrl: AlertController,
-    private router: Router
-    //private auth: AuthenticationService,  
-   
+    private router: Router,
+    private loadingCtrl: LoadingController   
   ) { 
     this.formLogin = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
@@ -124,31 +121,35 @@ export class LoginPage implements OnInit {
       email: this.values.email,
       password: this.values.password
     }
+
+    const loading = await this.loadingCtrl.create({
+      message: 'Iniciando sesión...',
+      duration: 2000,
+    });
+
+    loading.present();
     
     this.apiService.login_real(this.formLogin.value.email, this.formLogin.value.password)
     .then(data => {
       console.log(data);
       this.user=data;
       console.log(this.user);
-      /*this.user=this.user.data;
-      console.log(this.user);*/
-      //if(this.user.email_confirmed==0){        
+           
         if(this.user.data.user.activated===1){//&& this.user.deleted==0
           if(this.user.data.user.type==='waiters'){
             this.showAlert('Éxito', 'Camarero logeado satisfactoriamente.');
-            this.router.navigate(['/userslist']);
-          }else{
+            this.router.navigate(['/reserves']);
+          }else if(this.user.data.user.type==='users'){
             this.showAlert('Éxito', 'Usuario logeado satisfactoriamente.');            
-            this.router.navigate(['/gameslist']);
+            this.router.navigate(['/home']);
+          }else{
+            this.showAlert('Error', 'El administrador debe loguearse por medio de la página web.');
           }
         }else{
           this.showAlert('Alerta', 'Un administrador necesita reactivar su cuenta, por favor, inténtelo en otro momento.');
         }      
-      /*}else{
-        this.showAlert('Error', 'Confirme el email en su bandeja de entrada');
-      }*/
+     
     }, err => {
-      //this.showAlert('Error', 'Las credenciales no coinciden');
       console.log(err);
       this.showAlert('Error', 'El email o la contraseña no son correctos, inténtelo de nuevo.');
     });

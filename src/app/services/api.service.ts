@@ -3,7 +3,7 @@ import { environment } from 'src/environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
 import { Dishes } from '../interfaces/dishes';
-import { AlertController } from '@ionic/angular';
+import { AlertController, LoadingController, ToastController } from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root'
@@ -21,22 +21,22 @@ export class ApiService {
   password: any;
   data: any;
   category: any;
-/*
-  httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'POST, GET, PUT, OPTIONS, DELETE, PATCH',
-      'Access-Control-Allow-Headers': 'Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With',
-    })
-  };*/
 
-  constructor(private http: HttpClient, private alertController: AlertController) { }
+  public loading?: HTMLIonLoadingElement;
+
+  constructor(private http: HttpClient, private alertController: AlertController,
+     private toast: ToastController,
+     private loadingCtrl: LoadingController
+  ) { }
 
   /*public obtenerPlatos(){
-    //this.apiService.getEntity('dishes').subscribe((dishes:Dishes)=>{console.log(dishes)});
-    this.http.get(environment.apiUrl + "/dishes").subscribe((response: any) => {
-      this.dishes = response;this.http.get('http://localhost:8000/api/dishes').subscribe((response: any) => {
+    //this.apiService.getEntity('dishes')
+    .subscribe((dishes:Dishes)=>{console.log(dishes)});
+    this.http.get(environment.apiUrl + "/dishes")
+    .subscribe((response: any) => {
+      this.dishes = response;
+      this.http.get('http://localhost:8000/api/dishes')
+      .subscribe((response: any) => {
         this.dishes = response;
       });
     });
@@ -86,31 +86,9 @@ export class ApiService {
       });
     });
   }
-
-  /*public getData(): Promise<any> {
-    const url = 'http://localhost:8000/api/dishes';
-  
-    return new Promise((resolve, reject) => {
-      this.http.get(url)
-        .subscribe((response) => {
-          resolve(response);
-        }, (error) => {
-          reject(error);
-        });
-    });
-  }*/
-
   /*getData(): Observable<any> {
     const url = `${this.apiUrl}/data`;
-
     return this.http.get(url);
-  }
-
-  // Solicitud POST
-  postData(requestBody: any): Observable<any> {
-    const url = `${this.apiUrl}/login`;
-
-    return this.http.post(url, requestBody);
   }
 
   // Solicitud POST con headers de autenticación
@@ -185,6 +163,19 @@ export class ApiService {
     await noValid.present();
   }
 
+  getUsers(){
+    return new Promise(resolve => {
+      this.http.get(this.apiUrl+'/users', {
+        headers: new HttpHeaders().set('Authorization','Bearer '+this.token)
+      }).subscribe(data => {
+        resolve(data);
+        console.log(data);      
+      }, err => {
+        console.log('Error al mostrar los usuarios ' +err);
+      });
+    });
+  }
+
   getUserData(id: number){
     console.log(id);
     return new Promise(resolve => {
@@ -200,15 +191,18 @@ export class ApiService {
     });
   }
 
-  /*async emailExists(){
-    const noValid=await this.alertController.create({
-      header: 'Email Error',
-      cssClass: 'loginCss',
-      message: 'El email ya existe. Por favor, elija otro.',
-      buttons: ['Aceptar']
+  updateUser(id: number){
+    return new Promise(resolve => {
+      this.http.post(this.apiUrl+'/profile', {user_id: id}, {
+        headers: new HttpHeaders().set('Authorization','Bearer '+this.token)
+      }).subscribe(data => {        
+        resolve(data);
+        console.log(data);
+      }, err => {
+        console.log('Error al actualizar el usuario ' +err);
+      });
     });
-    await noValid.present();
-  }*/  
+  }
 
   /*get_Companies(){
     return new Promise(resolve => {
@@ -239,5 +233,22 @@ export class ApiService {
       });
     });
   }
+
+  public async showToast(message: string) {
+    const toast=await this.toast.create({
+      message: message,
+      duration: 5000,
+      buttons:['OK']
+    });
+    toast.present();
+  }
+
+  /*async showLoading(message?: string, duration?: number) {
+    this.loading=await this.loadingCtrl.create({
+      message: message ? message : null,
+      duration: duration ? duration : null
+    });
+    return this.loading.present();
+  }*/
 
 }

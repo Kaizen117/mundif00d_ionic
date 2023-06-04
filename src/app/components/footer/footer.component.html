@@ -4,21 +4,26 @@
       <ion-tab-bar slot="bottom">
         <ion-tab-button *ngIf="type=='waiters'" routerLink="/reserves">
           <ion-label>Reservas</ion-label>
-          <ion-icon name="people-circle-outline"></ion-icon>         
+          <ion-icon name="newspaper-outline"></ion-icon>
         </ion-tab-button>
         <ion-tab-button routerLink="/dishes">
-          <ion-label>Platos</ion-label>
+          <ion-label>Carta</ion-label>
           <ion-icon name="fast-food-outline"></ion-icon>
-        </ion-tab-button> 
-        <ion-tab-button *ngIf="type=='users'" routerLink="/profile">
-          <ion-label>Perfil</ion-label>
-          <ion-icon name="list-circle-outline"></ion-icon>
         </ion-tab-button>
-        <!--<ion-tab-button *ngIf="type=='u'" routerLink="/favs">
+        <ion-fab>
+          <ion-fab-button>
+          <ion-icon name="add"></ion-icon>
+          </ion-fab-button>
+        </ion-fab>
+         <!--<ion-tab-button *ngIf="type=='users'" routerLink="/favorites">
           <ion-label>Favoritos</ion-label>
           <ion-icon name="star-outline"></ion-icon>
         </ion-tab-button>-->
-        <!--<ion-tab-button *ngIf="type=='c'" routerLink="/graficos">
+        <ion-tab-button routerLink="/profile">
+          <ion-label>Perfil</ion-label>
+          <ion-icon name="person-sharp"></ion-icon>
+        </ion-tab-button>       
+        <!--<ion-tab-button *ngIf="type=='waiters'" routerLink="/graphics">
           <ion-label>Gráficos</ion-label>
           <ion-icon name="stats-chart-outline"></ion-icon>
         </ion-tab-button>

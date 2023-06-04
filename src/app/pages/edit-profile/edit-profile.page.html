@@ -1,0 +1,37 @@
+<ion-content>
+  <div id="container">
+    <p id="title"><ion-icon id="arrowLeft" routerLink="/profile" src="assets\icons\volver.svg"></ion-icon> Editar perfil</p>
+    
+    <form *ngIf="form" [formGroup]="form" (ngSubmit)="submitForm()">
+      <div id="avatarContainer">
+        <ion-avatar id="avatar">          
+          <img alt="avatar" src="https://ionicframework.com/docs/img/demos/avatar.svg"/>          
+          <ion-icon id="camera" click="loadPhoto()" src="assets\icons\camera.svg"></ion-icon>         
+        </ion-avatar>
+      </div>
+
+      <div id="body">
+          <ion-label class="labels" position="stacked">
+            <ion-input formControlName="name" class="custom" type="text" name="nombre" placeholder="Tu nombre"></ion-input>
+          </ion-label>
+      
+          <ion-label class="labels" position="stacked">
+            <ion-input class="custom" type="date" name="date" placeholder="Fecha de nacimiento" value="{{ user?.birthday }}"></ion-input>
+          </ion-label>
+      
+          <ion-label class="labels" position="stacked">
+            <ion-input formControlName="email" class="custom" type="email" name="email" placeholder="Correo electrónico" value="{{ user?.email }}"></ion-input>
+          </ion-label>
+       
+          <ion-label class="labels" position="stacked">
+            <ion-input formControlName="password" class="custom" type="password" name="password" placeholder="Introduce la nueva contraseña"></ion-input>
+          </ion-label>
+        
+          <ion-label class="labels" position="stacked">
+            <ion-input class="custom" type="password" placeholder="Repite la contraseña"></ion-input>
+          </ion-label>
+      </div>
+      <ion-button type="submit" routerLink="/profile" id="save" mode="ios" expand="block">Guardar cambios</ion-button> <!-- click="save()"-->
+    </form>    
+  </div>
+</ion-content>

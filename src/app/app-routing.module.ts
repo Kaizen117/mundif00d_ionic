@@ -38,6 +38,18 @@ const routes: Routes = [
   {
     path: 'orders',
     loadChildren: () => import('./pages/orders/orders.module').then( m => m.OrdersPageModule)
+  },
+  {
+    path: 'shopping-cart',
+    loadChildren: () => import('./pages/shopping-cart/shopping-cart.module').then( m => m.ShoppingCartPageModule)
+  },
+  {
+    path: 'home',
+    loadChildren: () => import('./pages/home/home.module').then( m => m.HomePageModule)
+  },
+  {
+    path: 'edit-profile',
+    loadChildren: () => import('./pages/edit-profile/edit-profile.module').then( m => m.EditProfilePageModule)
   }
 ];
 @NgModule({
