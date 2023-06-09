@@ -1,37 +1,19 @@
 import { Injectable } from '@angular/core';
-import { AlertController, LoadingController, ToastController } from '@ionic/angular';
+import { ToastController } from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UtilitiesService {
-  
-  //public loading?: HTMLIonLoadingElement;
-  
-  constructor(private loadingCtrl: LoadingController,
-    private alertCtrl: AlertController,
-    //private platform: Platform,
-    private toast: ToastController) { }
 
-  /*async showLoading(message?: string, duration?: number) {
-    this.loading= await this.loadingCtrl.create({
-      message: message ? message : null,
-      duration: duration ? duration : null
-    });
-    return this.loading.present();
-  }
-  
+  constructor(private toast: ToastController) { }
 
-  public dismissLoading() {
-    this.loading.dismiss().then(() => { return true; })
-  }*/
-
-  async showAlert(header: any, message: any){      
-    const alert = await this.alertCtrl.create({
-      header: header,
+  public async showToast(message: string) {
+    const toast = await this.toast.create({
       message: message,
-      buttons: ['Aceptar']
+      duration: 5000,
+      buttons:['OK']
     });
-    await alert.present();
-  }
+    toast.present();
+}
 }

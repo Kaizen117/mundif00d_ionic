@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AlertController, LoadingController, NavController, Platform } from '@ionic/angular';
-import { User } from 'src/app/interfaces/user';
+import { User } from 'src/app/interfaces/interfaces';
 import { ApiService } from 'src/app/services/api.service';
 //import { AuthenticationService } from 'src/app/services/authentication.service';
 //import { UtilitiesService } from 'src/app/services/utilities.service';
@@ -66,24 +66,6 @@ export class LoginPage implements OnInit {
       });
   }
 
-  postData() {
-    const requestBody = { name: 'John Doe', email: 'john@example.com' };
-    this.apiService.postData(requestBody)
-      .subscribe((response) => {
-        console.log(response);
-      }, (error) => {
-        console.error(error);
-      });
-  }
-
-  postWithAuth() {
-    const requestBody = { name: 'John Doe', email: 'john@example.com' };
-    this.apiService.postWithAuth(requestBody)
-      .subscribe((response) => {
-        console.log(response);
-      }, (error) => {
-        console.error(error);
-      });
   }*/
 
   /*logueo(){
@@ -124,31 +106,30 @@ export class LoginPage implements OnInit {
 
     const loading = await this.loadingCtrl.create({
       message: 'Iniciando sesión...',
-      duration: 2000,
+      duration: 500,
     });
-
     loading.present();
     
     this.apiService.login_real(this.formLogin.value.email, this.formLogin.value.password)
     .then(data => {
-      console.log(data);
+      //console.log(data);
       this.user=data;
       console.log(this.user);
-           
-        if(this.user.data.user.activated===1){//&& this.user.deleted==0
-          if(this.user.data.user.type==='waiters'){
-            this.showAlert('Éxito', 'Camarero logeado satisfactoriamente.');
-            this.router.navigate(['/reserves']);
-          }else if(this.user.data.user.type==='users'){
-            this.showAlert('Éxito', 'Usuario logeado satisfactoriamente.');            
-            this.router.navigate(['/home']);
-          }else{
-            this.showAlert('Error', 'El administrador debe loguearse por medio de la página web.');
-          }
+      console.log(this.user.data.user.activated);
+ 
+      if(this.user.data.user.activated===1){
+        if(this.user.data.user.type==='waiters'){
+          this.showAlert('Éxito', 'Camarero logeado satisfactoriamente.');
+          this.router.navigate(['/reserves']);
+        }else if(this.user.data.user.type==='users'){
+          this.showAlert('Éxito', 'Usuario logeado satisfactoriamente.');            
+          this.router.navigate(['/home']);
         }else{
-          this.showAlert('Alerta', 'Un administrador necesita reactivar su cuenta, por favor, inténtelo en otro momento.');
-        }      
-     
+          this.showAlert('Error', 'El administrador debe loguearse por medio de la página web.');
+        }
+      }else{
+        this.showAlert('Alerta', 'Un administrador necesita reactivar su cuenta, por favor, inténtelo en otro momento.');
+      }     
     }, err => {
       console.log(err);
       this.showAlert('Error', 'El email o la contraseña no son correctos, inténtelo de nuevo.');
@@ -227,33 +208,5 @@ export class LoginPage implements OnInit {
       buttons: ['Aceptar']
     });
     await alert.present();
-  }
-  
-  /*public submitForm(): void {
-    console.log(this.form.valid);
-    //console.log(this.form.value); OK->descomentar
-    //this.utilitiesService.showLoading("Entrando...");
-    
-    this.apiService.login(this.form.value).subscribe((user: User) => {
-    
-    //this.utilitiesService.dismissLoading();
-    console.log(user);
-    
-    //Ahora aplicamos la cabecera devuelta a las siguientes peticiones
-    //this.apiService.setTokenToHeaders(user.api_token);
-    
-    //Emitimos el evento de login
-    //this.events.publish('user:login');
-    
-    //Vamos a inicio
-    //this.auth.login(user.api_token);
-  
-    this.navCtrl.navigateRoot('/home-sin');
-   }, (error) => {    
-    /*this.utilitiesService.dismissLoading();
-    this.utilitiesService.showToast(codeErrors(error));
-   });
-    
-  }*/
-
+  }  
 }

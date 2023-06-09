@@ -52,8 +52,8 @@ ion-content{
     font-weight: 600;
 }
 
-.todos-los-cursos {
-    color: white;
+.news{
+    color: #ff5f00;
     margin-left: 13px;
     font-family: comforta;
     text-transform: uppercase;
@@ -62,62 +62,62 @@ ion-content{
     padding-bottom: 10px;
 }
 
-/* .image {
-    width: 55%;
-    position: relative;
-    z-index: 0;
-    background: linear-gradient(to bottom, transparent 0%, black 100%);
-} */
-
- .container-img-words {
-    position: relative;
-    display: inline-block;
-    z-index: 0;
-    width: 50%;
-    min-width: 55%;
-    margin-left: 15px;
-    margin-right: -20px;
-    padding-right: 25px;
-
-    .image::after {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: linear-gradient(to bottom, transparent 0%, black 100%);
-    }
-}
-
- .texto {
-    color: white;
-    font-family: comforta;
+ion-item{
+    --background: antiquewhite;
     text-align: center;
-    max-width: 80%;
-    padding-bottom: 1%;
-    margin-left: 7px;
-    position: absolute;
-    margin-top: -76%;
-
-    h3 {
-        font-size: 20px;
-        font-family: ralewaySemi;
-    }
-
-    .descripcion {
-        font-family: ralewayLight;
-        font-size: 13px;
-    }
-
-    .deporte {
-        color: #F86774;
-        font-size: 13px;
-    }
-} 
-
- .cursos {
-    align-items: center;
-    overflow: auto;
-    display: flex;
 }
+
+.price{
+    color: gray;
+    font-weight: bold;
+}
+
+//  .container-img-words {
+//     position: relative;
+//     display: inline-block;
+//     z-index: 0;
+//     width: 50%;
+//     min-width: 55%;
+//     margin-left: 15px;
+//     margin-right: -20px;
+//     padding-right: 25px;
+
+//     .image::after {
+//         content: '';
+//         position: absolute;
+//         top: 0;
+//         left: 0;
+//         right: 0;
+//         bottom: 0;
+//         background: linear-gradient(to bottom, transparent 0%, black 100%);
+//     }
+// }
+
+//  .texto {
+//     color: #ff5f00;
+//     font-family: comforta;
+//     text-align: center;
+//     max-width: 80%;
+//     padding-bottom: 1%;
+//     margin-left: 7px;
+//     position: absolute;
+//     margin-top: -76%;
+
+//     h3 {
+//         color: #ff5f00;
+//         font-size: 20px;
+//         font-family: ralewaySemi;
+//     }
+
+//     .descripcion {
+//         color: #ff5f00;
+//         font-family: ralewayLight;
+//         font-size: 13px;
+//     }    
+// } 
+
+//  .dishes {
+//     align-items: center;
+//     overflow: auto;
+//     display: flex;
+// }

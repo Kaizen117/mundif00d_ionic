@@ -1,7 +1,9 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { AlertController, NavController } from '@ionic/angular';
+import { DomSanitizer } from '@angular/platform-browser';
+import { Dish } from 'src/app/interfaces/interfaces';
 import { ApiService } from 'src/app/services/api.service';
+import { UtilitiesService } from 'src/app/services/utilities.service';
 
 @Component({
   selector: 'app-home',
@@ -12,31 +14,66 @@ export class HomePage implements OnInit {
 
   user: any;
   users: any;
+  platos: Dish[] = [];
+  dishes?: Dish[];
+  dishesImages: string[] = [];
 
-  constructor(private apiService: ApiService,
-    private http: HttpClient,
-    private navCtrl: NavController,
-    private alertController: AlertController,
+  constructor(
+    private apiService: ApiService,
+    private utilities: UtilitiesService,
+    private sanitizer: DomSanitizer,
+    private http: HttpClient
   ) {
-    this.showUsers();
+    //this.showUsers();
+    //this.getUserData();
+    this.showDishes();
   }
 
   ngOnInit() {
+    this.apiService.getUserData()
+      .then(data => {
+        console.log(data);
+        this.user=data;
+        console.log(this.user);     
+    }, (error: any) => {
+      console.log("Error: ", error);
+      this.utilities.showToast("Error obteniendo el usuario");
+    });
   }
 
   // ionViewWillEnter(){
   //   this.getUserData(this.user);    
   // }
 
+  // ionViewWillEnter(){
+  //   //this.apiService.getEntity('user').subscribe((user: User) => {
+  //     this.apiService.getUserData()
+  //     .then(data => {
+  //       console.log(data);
+  //       this.user=data;
+  //       console.log(this.user);     
+  //   }, (error: any) => {
+  //     console.log("Error: ", error);
+  //     this.utilities.showToast("Error obteniendo el usuario");
+  //   });
+  // }
+
+  showDishes(){
+    this.apiService.obtenerPlatos()
+    .subscribe(dishes => {
+      this.dishes = dishes;
+    }, error => {
+      console.log(error);
+    });    
+  }
+
   showUsers(){
     this.apiService.getUsers()
     .then(user => {
       console.log(user);
       this.users=user;
-      console.log(this.users);
-      this.users=this.users.users.id;
-      console.log(this.users);
-      this.getUserData(this.users);
+      console.log(this.users);      
+      //this.getUserData(this.users);
     });
   }
   /*getUserData(){
@@ -55,9 +92,18 @@ export class HomePage implements OnInit {
     }
   );*/
 
-  getUserData(user: any){
-    console.log(user);
-    this.apiService.getUserData(user.id);
+  getUserData(){
+    
+    this.apiService.getUserData()
+    .then(user => {
+      console.log(user);
+      this.user=user;
+      console.log(this.user);
+    });
+  }
+
+  getImage(){
+    return ("");
   }
 
 

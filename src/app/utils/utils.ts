@@ -21,7 +21,7 @@ export const confirmPassword = (control: AbstractControl) => {
  * Método que recibe el error y genera una respuesta
  * @param error 
  */
-export const codeErrors = (error) => {
+export const codeErrors = (error: { status: any; }) => {
   let message: string;
   switch (error.status) {
     case 401:

@@ -2,11 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ApiService } from 'src/app/services/api.service';
-import { UtilitiesService } from 'src/app/services/utilities.service';
 import { confirmPassword } from 'src/app/utils/utils';
-import { take } from 'rxjs/operators';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs-compat/add/observable/fromPromise';
+import { User } from 'src/app/interfaces/interfaces';
 
 @Component({
   selector: 'app-edit-profile',
@@ -24,7 +21,6 @@ export class EditProfilePage implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private apiService: ApiService,
-    private utilities: UtilitiesService,
     private router: Router
   ) {
     this.userId=0;
@@ -64,25 +60,7 @@ export class EditProfilePage implements OnInit {
     //   console.error('Error al obtener el ID del usuario:', error);
     //   // Manejo de errores
     // }
-    this.apiService.getUserData(this.userId)
-      .pipe(take(1))
-      .subscribe(
-        (response: any) => {
-          this.userId = response.id; // Asigna el ID del usuario recibido desde el servidor
-        },
-        (        error: any) => {
-          console.error('Error al obtener el ID del usuario:', error);          
-        }
-      );
-      Observable.fromPromise(this.apiService.getUserData(this.userId).toPromise())
-      .subscribe(
-        (response: any) => {
-          this.userId = response.id; // Asigna el ID del usuario recibido desde el servidor
-        },
-        (error: any) => {
-          console.error('Error al obtener el ID del usuario:', error);          
-        }
-      );
+    
   }
 
   // passwordMatchValidator(formGroup: FormGroup) {
@@ -114,22 +92,30 @@ export class EditProfilePage implements OnInit {
     console.log(this.form.valid);
     console.log(this.form.value);
 
+    this.apiService.updateUs(this.user).subscribe((user: User) => {
+      this.user = user;
+      console.log(this.user);
+    }, (error: any) => {
+      console.log("Error: ", error);
+      //this.utilities.showToast("Error obteniendo el usuario");
+    });
+    
+    //this.isSubmitted = true;
 
-    this.isSubmitted = true;
-
-    if (this.userId) {
-      this.apiService.updateUser(this.userId, this.campo)
-        .subscribe(
-          (          response: any) => {
-            console.log('Campo actualizado correctamente');
-            // Realiza cualquier acción adicional necesaria
-          },
-          error => {
-            console.error('Error al actualizar el campo:', error);
-            // Manejo de errores
-          }
-        );
-    }
+    // if (this.userId) {
+    //   this.apiService.updateUser(this.userId)
+    //     .subscribe(
+    //       async (response: any) => {
+    //       // (          response: any) => {
+    //         console.log('Campo actualizado correctamente');
+    //         // Realiza cualquier acción adicional necesaria
+    //       },
+    //       (          error: any) => {
+    //         console.error('Error al actualizar el campo:', error);
+    //         // Manejo de errores
+    //       }
+    //     );
+    // }
     // if (!this.form.valid) {
     //   console.log('Please provide all the required values');
     // } else {
@@ -158,8 +144,5 @@ export class EditProfilePage implements OnInit {
     });*/
   }
 
-  get errorControl() {
-    return this.form.controls;
-  }
 
 }

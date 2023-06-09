@@ -5,9 +5,10 @@ import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { FooterComponent } from './footer/footer.component';
 import { AppLoadingComponent } from './app-loading/app-loading.component';
+import { DishesComponent } from './dishes/dishes.component';
 
 @NgModule({
-  declarations: [FooterComponent, AppLoadingComponent],
+  declarations: [FooterComponent, DishesComponent, AppLoadingComponent],
   imports: [
     CommonModule,
     IonicModule.forRoot(),
@@ -15,7 +16,7 @@ import { AppLoadingComponent } from './app-loading/app-loading.component';
     FormsModule
   ],
   exports: [
-    FooterComponent, AppLoadingComponent, CommonModule
+    FooterComponent, DishesComponent, AppLoadingComponent, CommonModule
   ]
 })
 export class ComponentsModule { }

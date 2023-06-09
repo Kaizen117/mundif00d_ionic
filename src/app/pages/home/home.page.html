@@ -8,25 +8,53 @@
     <div class="saludo">
       <div class="hey">Bienvenido/a <p class="username">{{ user?.name }}</p>,</div> ¡Cómete el mundo!
     </div>
-    <div class="container3">
-      <p class="todos-los-cursos">Nuestros platos</p>
-
-      <div>
+    <!-- <div class="container3"> -->
+      <p class="news">Novedades</p>
+      <p class="news" routerLink="/settings">Ajustes</p>
+      <!-- <div>
         <video id="video" width="320" height="240" controls autoplay>
-          <!-- <source [src]="{{ video.url }}"> -->
+          <source [src]="{{ video.url }}"> 
           
-          <!--<source src=".\assets\videos\bg-video.mp4">-->
+         <source src=".\assets\videos\bg-video.mp4">
           Your browser does not support the video tag.
         </video>
-      </div>
+      </div> -->
+
+      <!-- <div *ngFor="let dish of dishes">        
+        <img [src]="dish.image" alt="foto">
+        <div class="texto">
+          <h3>{{ dish.name }}</h3>
+          <p class="descripcion">{{ dish.description }}</p>
+          <p>{{ dish.price }}€</p>
+        </div>
+      </div> -->
+     
+      <ion-list #lista>        
+        <ion-item *ngFor="let dish of dishes; let i = index">
+          <ion-label>
+            <!-- <img ng-src="dish.image">   
+            <img src="{{dish.image}}">
+            <img src="dish['image']">
+            <img src="http//:localhost:{{dish['image']}}"> -->
+
+            <p>{{ dish.name }}</p>         
+            <p>{{ dish.description }}</p>         
+            <p class="price">{{ dish.price }}€</p>
+            
+           <!-- <ion-thumbnail>
+               <img data-src="dish['image']"> 
+               <img data-src="{{dish.image}}">             
+            </ion-thumbnail>  -->
+          </ion-label>
+        </ion-item>        
+      </ion-list>
       
-      <div class="cursos" routerLink="/payment">
+      <!-- <div class="dishes" routerLink="/dishes">
         <div class="container-img-words">
           <ion-img src="assets/imgs/curso1.png" class="image"></ion-img>
           <div class="texto">
             <h3>Marcos Álvarez</h3>
             <p class="descripcion">Lorem ipsum dolor sit amet ad lipsinc</p>
-            <p class="deporte">Baloncesto</p>
           </div>
         </div>      
 
@@ -35,11 +63,10 @@
           <div class="texto">
             <h3>Lara Aguado</h3>
             <p class="descripcion">Lorem ipsum dolor sit amet ad lipsinc</p>
-            <p class="deporte">Pádel</p>
           </div>
         </div>        
-      </div>
-    </div>
+      </div> -->
+    <!-- </div> -->
   </div>
 </ion-content>
 <app-footer></app-footer>

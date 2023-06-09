@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { LoadingController } from '@ionic/angular';
-import { User } from 'src/app/interfaces/user';
+import { User } from 'src/app/interfaces/interfaces';
 import { ApiService } from 'src/app/services/api.service';
 @Component({
   selector: 'app-profile',

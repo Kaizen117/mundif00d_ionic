@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, Subject } from 'rxjs';
-import { Dishes } from '../interfaces/dishes';
+import { Observable, Subject, map } from 'rxjs';
 import { AlertController, LoadingController, ToastController } from '@ionic/angular';
+import { User } from '../interfaces/interfaces';
+import { Dish } from '../interfaces/interfaces';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
 
-  //public userChanges = new Subject<User>();
   dishes: any;
   apiUrl='http://localhost:8000/api';
   token: any;
@@ -23,53 +23,40 @@ export class ApiService {
   category: any;
 
   public loading?: HTMLIonLoadingElement;
+  public userChanges = new Subject<User>();
 
-  constructor(private http: HttpClient, private alertController: AlertController,
-     private toast: ToastController,
-     private loadingCtrl: LoadingController
-  ) { }
+  constructor(
+    private http: HttpClient,
+    private alertController: AlertController,
+    private toast: ToastController,
+    private loadingCtrl: LoadingController
+  ) { }  
 
-  /*public obtenerPlatos(){
-    //this.apiService.getEntity('dishes')
-    .subscribe((dishes:Dishes)=>{console.log(dishes)});
-    this.http.get(environment.apiUrl + "/dishes")
-    .subscribe((response: any) => {
-      this.dishes = response;
-      this.http.get('http://localhost:8000/api/dishes')
-      .subscribe((response: any) => {
-        this.dishes = response;
-      });
-    });
-  }*/
-
-  /*register(user: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/register`, user);
-  }
-
-  logueo(credentials: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/login`, credentials);
-  }*/
-
-  registerUser(user: any){
+  registerUser(user: any): Promise<any> {
     console.log(user);
-    return new Promise(resolve => {
-      this.http.post<any>(this.apiUrl+'/register', {
+    return new Promise((resolve, reject) => {
+      this.http.post<any>(this.apiUrl + '/register', {
         name: user.name,
         surname1: user.surname1,
         surname2: user.surname2,
         telephone: user.telephone,
-        address: user.address,        
+        address: user.address,
         email: user.email,
         username: user.username,
         password: user.password,
-        c_password: user.c_password
-      }).subscribe(data => {      
-        resolve(data); 
-        console.log(data);       
-      }, err => {
-        console.log('Error durante el registro del usuario ' +err);
-        //this.emailExists();
-      });
+        c_password: user.c_password,
+        type: 'users',
+        activated: 0
+      }).subscribe(data => {
+          resolve(data);
+          this.showToast("Registro realizado con éxito.");
+          console.log(data);
+        },
+        error => {
+          reject(error);
+          console.log('Error en registro', error);
+        }
+      );
     });
   }
   
@@ -103,6 +90,7 @@ export class ApiService {
   }*/
 
   login_real(n_email: string, n_password: string){//login app
+    //console.log(n_email, " ", n_password);
     return new Promise(resolve => {
       this.http.post<any>(this.apiUrl + '/login', 
       {
@@ -110,48 +98,22 @@ export class ApiService {
         password: n_password
       }).subscribe(data => {
         console.log(data);
-
         this.token=data.data.token;
         this.id=data.data.id;
         this.email=n_email;
         this.password=n_password;
-        resolve(data);             
+        resolve(data);
+        console.log("token ", this.token);
         console.log(data);
+        this.user=data;
+        //this.showToast("Inicio de sesión realizado con éxito");
       }, err=> {
         console.log('Error en el login ' +err);
+        this.showToast("Acceso denegado.");
         this.validateLogin();
       });
     });
-  }
-
-  /*login_real(n_email: string, n_password: string) {    
-      //console.log(n_email, " ", n_password);      
-      return new Promise(resolve => {
-        this.http.post<any>(this.apiUrl + '/login', {
-          email: n_email,
-          password: n_password
-        }).subscribe({
-          next: data => {
-            //this.token = data['token'];
-            //const { token } = data;
-            this.token=data;
-            //this.id = data['id'];
-            this.email = n_email;
-            this.password = n_password;
-            console.log(this.token);
-            //console.log(this.id);
-            console.log(this.email);
-            console.log(this.password);
-            resolve(data);
-            console.log("DATA: ",data);           
-          },
-          error: err => {
-            console.log('Error en el login ' + err);
-            this.validateLogin();
-          }          
-        });
-      });    
-  }*/
+  } 
 
   async validateLogin(){
     const noValid=await this.alertController.create({
@@ -176,22 +138,69 @@ export class ApiService {
     });
   }
 
-  getUserData(id: number){
-    console.log(id);
+  getUserData(){
+    //console.log(id);
     return new Promise(resolve => {
-      this.http.get(this.apiUrl+'/user/'+id, {
+      this.http.get(this.apiUrl+'/userData', {
         headers: new HttpHeaders().set('Authorization','Bearer '+this.token)
       }).subscribe(data => {
-        resolve(data)
-        this.user = data;
-        console.log(data);      
+        data=this.user;
+        resolve(data);
+        //this.user = data;
+        console.log(data);
+        console.log(this.token);
       }, err => {
-        console.log('Error al obtener los datos del usuario ' +err)
+        console.log('Error al obtener los datos del usuario ' +err);
       });
     });
   }
 
-  updateUser(id: number){
+  getUser() {
+    const headers = new HttpHeaders().set('Authorization', 'Bearer ' + this.token);
+    console.log(headers);
+    return this.http.get(`${this.apiUrl}/userData`, { headers }).toPromise();
+  }
+
+  // updateUser(id: number){
+  //   return new Promise(resolve => {
+  //     this.http.post(this.apiUrl+'/profile', {user_id: id}, {
+  //       headers: new HttpHeaders().set('Authorization','Bearer '+this.token)
+  //     }).subscribe(data => {        
+  //       resolve(data);
+  //       console.log(data);
+  //     }, err => {
+  //       console.log('Error al actualizar el usuario ' +err);
+  //     });
+  //   });
+  // }
+
+  updateUser(user: any){
+    //console.log(this.token);
+    //console.log(id);
+    return new Promise(resolve => {
+      this.http.post(this.apiUrl+'/profile/'+user.id,
+        {
+          name: user.name,
+          surname1: user.surname1,
+          surname2: user.surname2,
+          address: user.address,
+          telephone: user.telephone,
+          email: user.email,
+          password: user.password          
+        },
+        {        
+         headers: new HttpHeaders().set('Authorization','Bearer '+this.token)      
+      }).subscribe(data => {
+        resolve(data);
+        console.log(data);
+      }, err => {
+        console.log('Error al actualizar el usuario ' +err);
+        this.showToast("No se ha podido actualizar el usuario.");
+      });
+    });
+  }
+
+  updateU(id: number){
     return new Promise(resolve => {
       this.http.post(this.apiUrl+'/profile', {user_id: id}, {
         headers: new HttpHeaders().set('Authorization','Bearer '+this.token)
@@ -200,29 +209,50 @@ export class ApiService {
         console.log(data);
       }, err => {
         console.log('Error al actualizar el usuario ' +err);
+        this.showToast("No se ha podido actualizar el usuario.");
       });
     });
   }
 
-  /*get_Companies(){
+  public updateUs(user: User): any {
+    this.userChanges.next(user);
+    return this.http.post<User>(this.apiUrl+'/profile/',{
+      headers: new HttpHeaders().set('Authorization','Bearer '+this.token)
+    });
+  }
+
+  deleteUser(id: number){
+    //console.log(id);
     return new Promise(resolve => {
-      this.http.get(this.apiUrl+'/dishes')
-      .subscribe(data => {
-        resolve(data)
+      this.http.post(this.apiUrl+'/user/delete/'+id,
+       {
+        user_id: id
+       },
+       {
+        headers: new HttpHeaders().set('Authorization','Bearer '+this.token)
+      }).subscribe(data => {
+        resolve(data);
         console.log(data);
       }, err => {
-        console.log(err)
+        console.log('Error al eliminar usuario ' +err);
+        this.showToast("No se ha podido eliinar la cuenta de usuario.");
       });
     });
-  }*/
+  } 
 
   /*getDishes(){
     return this.http.get(this.apiUrl + '/dishes');
  }*/
+
+ obtenerPlatos(): Observable<Dish[]> {
+  return this.http.get<any>(this.apiUrl+'/dishes').pipe(
+    map((response: { dishes: any; }) => response.dishes)
+  );
+}  
  
   getDishes(){
     return new Promise(resolve => {
-      this.http.get<Dishes>(this.apiUrl+'/dishes', {
+      this.http.get<Dish>(this.apiUrl+'/dishes', {
         headers: new HttpHeaders().set('Authorization','Bearer '+this.token)
       }).subscribe(data => {
         resolve(data);
@@ -233,6 +263,22 @@ export class ApiService {
       });
     });
   }
+
+  /*getData() {
+    return this.http.get('/assets/imgs/dishes');
+  }*/
+
+  // getCompanies(){
+  //   return new Promise(resolve => {
+  //     this.http.get<Dish>(this.apiUrl+'/dishes')
+  //     .subscribe(data => {
+  //       resolve(data)
+  //       console.log(data);
+  //     }, err => {
+  //       console.log(err)
+  //     });
+  //   });
+  // }
 
   public async showToast(message: string) {
     const toast=await this.toast.create({
