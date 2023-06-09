@@ -1,0 +1,132 @@
+CREATE TABLE IF NOT EXISTS Users(
+	id 					INTEGER(11) PRIMARY KEY,
+	name 				VARCHAR(25) NOT NULL,
+	surname1 			VARCHAR(30) NOT NULL,
+	surname2 			VARCHAR(30) NOT NULL,
+	email				VARCHAR(50) UNIQUE NOT NULL,
+	email_verified_at	DATETIME,
+	telephone 			CHAR(9) UNIQUE NOT NULL,
+	address				VARCHAR(255),
+	username			VARCHAR(30) UNIQUE NOT NULL,
+	password			VARCHAR(255) NOT NULL,
+	type				VARCHAR(20) NOT NULL, -- OPCIONAL
+	activated			BOOLEAN(1) NOT NULL,
+	token				VARCHAR(255) UNIQUE NOT NULL,
+	created_at			DATETIME NOT NULL,
+	updated_at			DATETIME NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS Users_Roles(
+	id 			INTEGER(11) PRIMARY KEY,
+	user_id		INTEGER(11) NOT NULL,
+	role_id		INTEGER(11) NOT NULL,
+	created_at	DATETIME NOT NULL,
+	updated_at	DATETIME NOT NULL,
+	CONSTRAINT UR_idU_fk FOREIGN KEY user_id REFERENCES Users(id) ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT UR_idR_fk FOREIGN KEY role_id REFERENCES Roles(id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS Roles(
+	id 			INTEGER(11) PRIMARY KEY,
+	name 		VARCHAR(20) NOT NULL,
+	created_at	DATETIME NOT NULL,
+	updated_at	DATETIME NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS Dishes( -- carta
+	id 				INTEGER(11) PRIMARY KEY,
+	name 			VARCHAR(30) NOT NULL,
+	image			VARCHAR(255) NOT NULL,
+	price			DOUBLE(5,2) NOT NULL,
+	description		VARCHAR(100),
+	category		VARCHAR(20) NOT NULL,
+	disponibility	BOOLEAN NOT NULL,
+	created_at		DATETIME NOT NULL,
+	updated_at		DATETIME NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS Assessments( -- valoraciones
+	id 			INTEGER(11) PRIMARY KEY,
+	user_id		INTEGER(11) NOT NULL,
+	dish_id		INTEGER(11) NOT NULL,
+	level 		INTEGER(1) NOT NULL,
+	created_at	DATETIME NOT NULL,
+	updated_at	DATETIME NOT NULL,
+	CONSTRAINT As_idU_fk FOREIGN KEY user_id REFERENCES Users(id) ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT AS_idD_fk FOREIGN KEY dish_id REFERENCES Dishes(id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS Orders( -- pedidos para el camarero.
+	id 			INTEGER(11) PRIMARY KEY,
+	delivery 	VARCHAR(100), -- reparto en local o a domicilio, puede ser nulo (si la consumicion es en local)
+	total_price	DOUBLE(5,2) NOT NULL,
+	created_at	DATETIME NOT NULL,
+	updated_at	DATETIME NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS Order_Details(
+	id 			INTEGER(11) PRIMARY KEY,
+	order_id 	INTEGER(11) NOT NULL,
+	dish_id		INTEGER(11) NOT NULL,
+	table_id	INTEGER(11),
+	quantity	INTEGER(2)  NOT NULL,
+	unit_price  DOUBLE(5,2) NOT NULL,
+	status		BOOLEAN NOT NULL,
+	created_at	DATETIME NOT NULL,
+	updated_at	DATETIME NOT NULL,
+	CONSTRAINT OD_idO_fk FOREIGN KEY order_id REFERENCES Orders(id) ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT OD_idD_fk FOREIGN KEY dish_id REFERENCES Dishes(id) ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT OD_idT_fk FOREIGN KEY table_id REFERENCES Tables(id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS Providers(
+	id 			INTEGER(11) PRIMARY KEY,
+  	cif 		CHAR(9) UNIQUE NOT NULL,
+	name 		VARCHAR(30) NOT NULL,
+  	telephone 	CHAR(9) UNIQUE NOT NULL,
+  	direction 	VARCHAR(50) NOT NULL,	
+  	created_at	DATETIME NOT NULL,
+	updated_at	DATETIME NOT NULL,
+);
+
+CREATE TABLE IF NOT EXISTS Ingredients(
+	id 			INTEGER(11) PRIMARY KEY,
+	dish_id		INTEGER(11) NOT NULL,
+	provider_id INTEGER(11) NOT NULL,
+	name 		VARCHAR(30) NOT NULL,
+	created_at	DATETIME NOT NULL,
+	updated_at	DATETIME NOT NULL,
+	CONSTRAINT Ing_idD_fk FOREIGN KEY dish_id REFERENCES Dishes(id) ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT Ing_idP_fk FOREIGN KEY provider_id REFERENCES Providers(id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS Allergens(
+	id 				INTEGER(11) PRIMARY KEY,
+	dish_id		 	INTEGER(11) NOT NULL,
+	name 			VARCHAR(30) NOT NULL,	
+	created_at		DATETIME NOT NULL,
+	updated_at		DATETIME NOT NULL,
+	CONSTRAINT All_idI_fk FOREIGN KEY ingredient_id REFERENCES Ingredients(id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS Tables(
+	id 				INTEGER(11) PRIMARY KEY,
+	diner_number 	INTEGER(3) NOT NULL, -- nº de comensal (sillas)
+	place 			VARCHAR(15) NOT NULL,
+	created_at		DATETIME NOT NULL,
+	updated_at		DATETIME NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS Reserves(
+	id 				INTEGER(11) PRIMARY KEY,
+	user_id 		INTEGER(11) NOT NULL,
+	table_id		INTEGER(11) NOT NULL,
+	diner_number 	INTEGER(3) NOT NULL, -- si reserva para 4 no puede haber mas de 4, pero si para 3 en caso que alguien no pueda asistir
+	date			DATE NOT NULL,
+	hour			TIME NOT NULL,
+	observations    VARCHAR(100), -- 5 adultos y 2 niños, alergenos, etc
+	created_at		DATETIME NOT NULL,
+	updated_at		DATETIME NOT NULL,
+	CONSTRAINT Res_idU_fk FOREIGN KEY user_id REFERENCES Users(id) ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT Res_idT_fk FOREIGN KEY table_id REFERENCES Tables(id) ON DELETE CASCADE ON UPDATE CASCADE
+);
