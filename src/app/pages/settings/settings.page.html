@@ -2,25 +2,29 @@
   <p id="title"><ion-icon id="arrowLeft" routerLink="/profile" src="assets\icons\volver.svg"></ion-icon> Ajustes</p>
   <div id="container">    
     <div class="boxes" routerLink="/privacy-policy">
-      <p class="category">        
+      <p class="category">
+        <ion-icon class="icon" src="assets\icons\settings\040-edit.svg"></ion-icon>
         Política de privacidad
         <ion-icon class="arrow" src="assets\icons\arrow-forward.svg"></ion-icon>
       </p>
     </div>
     <div class="boxes" routerLink="/terms-conditions">
-      <p class="category">      
+      <p class="category">
+        <ion-icon class="icon" src="assets\icons\settings\040-edit.svg"></ion-icon>
         Términos y condiciones
         <ion-icon class="arrow" src="assets\icons\arrow-forward.svg"></ion-icon>
       </p>
     </div>
-    <div class="boxes" routerLink="/logout">
+    <div class="boxes" (click)="loading()">
       <p class="category">
+        <ion-icon class="icon" src="assets\icons\settings\logout.svg"></ion-icon>
         Salir de la cuenta
         <ion-icon class="arrow" src="assets\icons\arrow-forward.svg"></ion-icon>
       </p>
     </div>
     <div class="boxes" (click)="showAdvertisement()">
       <p class="category">
+        <ion-icon class="icon" src="assets\icons\settings\delete.svg"></ion-icon>
         Eliminar cuenta
         <ion-icon class="arrow" src="assets\icons\arrow-forward.svg"></ion-icon>
       </p>

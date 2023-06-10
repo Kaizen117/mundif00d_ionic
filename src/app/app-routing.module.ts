@@ -62,6 +62,10 @@ const routes: Routes = [
   {
     path: 'terms-conditions',
     loadChildren: () => import('./pages/terms-conditions/terms-conditions.module').then( m => m.TermsConditionsPageModule)
+  },
+  {
+    path: 'allergens',
+    loadChildren: () => import('./pages/allergens/allergens.module').then( m => m.AllergensPageModule)
   }
 ];
 @NgModule({

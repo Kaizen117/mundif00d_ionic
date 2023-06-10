@@ -1,0 +1,60 @@
+ion-content{
+    --background: antiquewhite;
+}
+
+#title{
+    font-weight: bold;
+    font-family: "Poppins-SemiBold";
+    font-size: 15px;
+    color:#3B3A39;
+    margin:0 auto;
+    position:absolute;
+    top:26pt;
+    left: 60pt;
+    width: 100vw;
+    z-index: 1;
+}
+
+#arrowLeft{    
+    position: absolute;
+    top: 23pt;
+    left: 30pt;   
+    height: 17.5pt;
+    width: 20px;
+    z-index: 3;
+}
+
+.body{
+    margin-left: 30px;
+    margin-top: 100px;
+}
+
+.alergeno {
+    display: flex;
+    margin-right: 20px;
+    margin-top: 10px;
+}
+
+.alergeno .box {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+    text-align: center;
+    background-color: #dd7f5e;
+    text-align: center;
+    border-radius: 20%;
+}
+
+.allergen-text{
+    color: #333232;
+    font-family: "Poppins-Medium";
+    font-size: 11px;
+    text-align: left;
+    margin-top: 10px;
+    width: 75%;
+}
+
+ion-icon{
+    width: 25px;
+    height: 40px;
+}

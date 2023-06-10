@@ -31,9 +31,9 @@ export class HomePage implements OnInit {
 
   ngOnInit() {
     this.apiService.getUserData()
-      .then(data => {
+      .then((data: any) => {
         console.log(data);
-        this.user=data;
+        this.user=data.data.user;
         console.log(this.user);     
     }, (error: any) => {
       console.log("Error: ", error);

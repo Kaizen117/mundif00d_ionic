@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AlertController, ToastController } from '@ionic/angular';
+import { AlertController, LoadingController, ToastController } from '@ionic/angular';
 import { User } from 'src/app/interfaces/interfaces';
 import { ApiService } from 'src/app/services/api.service';
 import { UtilitiesService } from 'src/app/services/utilities.service';
@@ -12,19 +12,17 @@ import { UtilitiesService } from 'src/app/services/utilities.service';
 })
 export class SettingsPage implements OnInit {
 
-  user: any;
-  data: any;
+  user: any;  
   
   constructor(
     private apiService: ApiService,
     private alertController: AlertController,
     private router: Router,
     private utilities: UtilitiesService,
-    // private toast: ToastController
+    private loadingCtrl: LoadingController
   ) { }
 
   ionViewWillEnter(){
-    //this.apiService.getEntity('user').subscribe((user: User) => {
       this.apiService.getUserData()
       .then(data => {
         console.log(data);
@@ -47,6 +45,8 @@ export class SettingsPage implements OnInit {
           cssClass: 'secondary',
           handler: () => {
             console.log('Click en Cancelar');
+            console.log("USER ID: " ,this.user.data.user.id);
+            console.log(this.user);
           }
         },
         {
@@ -54,9 +54,14 @@ export class SettingsPage implements OnInit {
           handler: () => {
             console.log('Click en Aceptar');
             console.log("USER ID: " ,this.user.data.user.id);
-            this.apiService.deleteUser(this.user.id);
-            this.utilities.showToast("CUENTA ELIMINADA CON ÉXITO");
-            this.router.navigate(['/login']);
+            console.log(this.user);
+            try{
+              this.apiService.deleteUser(this.user.id);
+              this.utilities.showToast("CUENTA ELIMINADA CON ÉXITO");
+              this.router.navigate(['/login']);
+            }catch(Exception){
+              this.utilities.showToast("No se pudo eliminar la cuenta.");
+            }           
           }
         }
       ]
@@ -64,16 +69,22 @@ export class SettingsPage implements OnInit {
     await alert.present();
   }
 
-  ngOnInit() {
+  async loading(){      
+    const loading = await this.loadingCtrl.create({
+      message: 'Cerrando sesión...',
+      duration: 500,
+    });
+
+    loading.present();
+    this.logout();
   }
 
-  /*public async showToast(message: string) {
-    const toast=await this.toast.create({
-      message: message,
-      duration: 5000,
-      buttons:['OK']
-    });
-    toast.present();
-  }*/
+  logout(){
+    this.router.navigate(['/login']);
+  }
+  
+
+  ngOnInit() {
+  } 
 
 }

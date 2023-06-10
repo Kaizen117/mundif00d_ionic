@@ -9,9 +9,8 @@ export interface User {
     email_verified?: string;
     username: string;
     password: Date;
-    type?: string;
-    activated?: boolean;
-    liked?: boolean;
+    type: string;
+    activated?: boolean;    
 }
 
 export interface Dish {
@@ -22,5 +21,6 @@ export interface Dish {
     description: string;
     category: string;
     disponibility: boolean;
-    created_at?: Date;        
+    created_at?: Date;
+    liked?: boolean;     
 }

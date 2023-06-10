@@ -1,0 +1,61 @@
+@font-face {
+    font-family: comforta;
+    src: url(/assets/fonts/Comfortaa-Medium.ttf);
+}
+
+@font-face {
+    font-family: raleway;
+    src: url(/assets/fonts/Raleway-Medium.ttf);
+}
+
+@font-face {
+    font-family: ralewayLight;
+    src: url(/assets/fonts/Raleway-Light.ttf);
+}
+
+@font-face {
+    font-family: ralewaySemi;
+    src: url(/assets/fonts/Raleway-SemiBold.ttf);
+}
+
+ion-content{
+    --background: antiquewhite;
+    --padding-top: 65px;
+}
+
+#title{
+    font-weight: bold;
+    font-family: "Poppins-SemiBold";
+    font-size: 20px;
+    color:#3B3A39;
+    margin:0 auto;
+    position:absolute;
+    top:23pt;
+    left: 60pt;
+    width: 100vw;
+    z-index: 1;
+}
+
+#arrowLeft{    
+    position: absolute;
+    top: 23pt;
+    left: 30pt;   
+    height: 17.5pt;
+    width: 20px;
+    z-index: 3;
+}
+
+ion-item{
+    --background: antiquewhite;
+}
+
+.price{
+    color: gray;
+    font-weight: bold;
+    float: right;
+}
+
+button{
+    background: #ffc409;
+    color: blue;
+}

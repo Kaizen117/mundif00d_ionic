@@ -1,0 +1,106 @@
+@font-face {
+    font-family: comforta;
+    src: url(/assets/fonts/Comfortaa-Medium.ttf);
+}
+
+@font-face {
+    font-family: raleway;
+    src: url(/assets/fonts/Raleway-Medium.ttf);
+}
+
+@font-face {
+    font-family: ralewayLight;
+    src: url(/assets/fonts/Raleway-Light.ttf);
+}
+
+@font-face {
+    font-family: ralewaySemi;
+    src: url(/assets/fonts/Raleway-SemiBold.ttf);
+}
+
+
+ion-content{
+    --background: url("/assets/imgs/base-background.jpg");
+}
+
+#title{
+    color:#FFFFFF;
+    font-family: comforta;
+    font-size: 18px;
+    margin-top: 25px;
+    margin-bottom: 25px;
+    text-align: left;
+}
+
+#arrowLeft{
+    float: left;
+    margin-left: 20px;
+    padding-right: 10px;
+    width: 20px;    
+}
+
+#avatarContainer{
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+}
+
+ion-avatar{
+    margin-bottom: 50px;
+    width: 115px;
+    height: 115px;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    /*mix-blend-mode: multiply;
+    filter: brightness(50%);*/
+    filter: contrast(0.5);
+}
+
+#camera{
+    position: absolute;
+    /*top: 31%;
+    right: 144px;*/
+    height: 30px;
+    width: 102px;
+}
+
+
+#body{
+    margin-left: 25px;
+    margin-right: 25px;
+    margin-bottom: 40px;
+}
+
+.labels{
+    color: #9E9E9E;
+    font-family: ralewaySemi;
+    font-size: 14px;
+    text-align: left;
+}
+
+ion-input{
+    border-radius: 5px;
+    background-color: #3B3B3B;
+    color: #9E9E9E;
+    font-family: ralewaySemi;
+    font-size: 14px;
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+ion-input.custom {
+    --padding-start: 15px;
+    --padding-top: 14px;
+  }
+
+ion-button{
+    --background: #DE4553;
+    --border-radius: 5px;
+    color: #FFFFFF;
+    font-family: raleway;
+    font-size: 14px;
+    margin-left: 25px;
+    text-align: center;
+    width: 86%;
+}

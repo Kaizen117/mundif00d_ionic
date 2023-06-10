@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { LoadingController } from '@ionic/angular';
 import { User } from 'src/app/interfaces/interfaces';
 import { ApiService } from 'src/app/services/api.service';
+import { UtilitiesService } from 'src/app/services/utilities.service';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.page.html',
@@ -17,7 +18,7 @@ export class ProfilePage implements OnInit {
   constructor(
     private apiService: ApiService,
     private loadingCtrl: LoadingController,
-    //private utilities: UtilitiesService,
+    private utilities: UtilitiesService,
     //public auth: AuthenticationService
   ) { }
 
@@ -39,7 +40,8 @@ export class ProfilePage implements OnInit {
   }
 
   ionViewWillEnter(){ 
-    this.showLoading();        
+    this.showLoading();
+    this.loadUserData();
   }
 
 
@@ -51,6 +53,18 @@ export class ProfilePage implements OnInit {
     });
 
     loading.present();
+  }
+
+  loadUserData(){
+    this.apiService.getUserData()
+      .then((data: any) => {
+        console.log(data);
+        this.user=data.data.user;
+        console.log(this.user);     
+    }, (error: any) => {
+      console.log("Error: ", error);
+      this.utilities.showToast("Error obteniendo el usuario");
+    });
   }
 
   /*public submitForm(): void {

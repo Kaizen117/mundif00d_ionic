@@ -6,9 +6,10 @@ import { FormsModule } from '@angular/forms';
 import { FooterComponent } from './footer/footer.component';
 import { AppLoadingComponent } from './app-loading/app-loading.component';
 import { DishesComponent } from './dishes/dishes.component';
+import { NamePipe } from '../pipes/descriptionName.pipe';
 
 @NgModule({
-  declarations: [FooterComponent, DishesComponent, AppLoadingComponent],
+  declarations: [FooterComponent, DishesComponent, AppLoadingComponent, NamePipe],
   imports: [
     CommonModule,
     IonicModule.forRoot(),
@@ -16,7 +17,7 @@ import { DishesComponent } from './dishes/dishes.component';
     FormsModule
   ],
   exports: [
-    FooterComponent, DishesComponent, AppLoadingComponent, CommonModule
+    FooterComponent, DishesComponent, AppLoadingComponent, CommonModule, NamePipe
   ]
 })
 export class ComponentsModule { }

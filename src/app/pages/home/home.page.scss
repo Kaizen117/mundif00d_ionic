@@ -22,16 +22,22 @@ ion-content{
     --background: antiquewhite;
 }
 
+.allergens{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.allergens ion-img{
+    margin: 0 auto;
+    width: 100px;
+    height: 115px;    
+}
+
 .logo {
     position: absolute;
     width: 20%;
     margin-left: 30px;
     margin-top: 30px;
-}
-
-.cart {
-    float: right;
-    color: darkgoldenrod;
 }
 
 .saludo {
@@ -52,14 +58,13 @@ ion-content{
     font-weight: 600;
 }
 
-.news{
+.text{
     color: #ff5f00;
     margin-left: 13px;
     font-family: comforta;
     text-transform: uppercase;
     font-size: 11px;
     margin-top: 60px;
-    padding-bottom: 10px;
 }
 
 ion-item{
@@ -67,57 +72,11 @@ ion-item{
     text-align: center;
 }
 
-.price{
-    color: gray;
-    font-weight: bold;
+ion-button{
+    background: #ff5f00;;
+    border-radius: 25px;
+    color: white;
+    border: 1px solid white;
+    margin-left: 10px;
+    margin-right: 5px;   
 }
-
-//  .container-img-words {
-//     position: relative;
-//     display: inline-block;
-//     z-index: 0;
-//     width: 50%;
-//     min-width: 55%;
-//     margin-left: 15px;
-//     margin-right: -20px;
-//     padding-right: 25px;
-
-//     .image::after {
-//         content: '';
-//         position: absolute;
-//         top: 0;
-//         left: 0;
-//         right: 0;
-//         bottom: 0;
-//         background: linear-gradient(to bottom, transparent 0%, black 100%);
-//     }
-// }
-
-//  .texto {
-//     color: #ff5f00;
-//     font-family: comforta;
-//     text-align: center;
-//     max-width: 80%;
-//     padding-bottom: 1%;
-//     margin-left: 7px;
-//     position: absolute;
-//     margin-top: -76%;
-
-//     h3 {
-//         color: #ff5f00;
-//         font-size: 20px;
-//         font-family: ralewaySemi;
-//     }
-
-//     .descripcion {
-//         color: #ff5f00;
-//         font-family: ralewayLight;
-//         font-size: 13px;
-//     }    
-// } 
-
-//  .dishes {
-//     align-items: center;
-//     overflow: auto;
-//     display: flex;
-// }

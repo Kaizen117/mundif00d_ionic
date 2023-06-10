@@ -5,19 +5,31 @@
     <form *ngIf="form" [formGroup]="form" (ngSubmit)="submitForm()">
       <div id="avatarContainer">
         <ion-avatar id="avatar">          
-          <img alt="avatar" src="https://ionicframework.com/docs/img/demos/avatar.svg"/>          
+          <!-- <img alt="avatar" src="https://ionicframework.com/docs/img/demos/avatar.svg"/>    -->
+          <img alt="avatar" src="assets\icons\icon.png"/>       
           <ion-icon id="camera" click="loadPhoto()" src="assets\icons\camera.svg"></ion-icon>         
         </ion-avatar>
       </div>
 
       <div id="body">
-          <ion-label class="labels" position="stacked">
-            <ion-input formControlName="name" class="custom" type="text" name="nombre" placeholder="Tu nombre"></ion-input>
+          <ion-label *ngIf="form.controls.name.errors?.['pattern']">
+            Solo se permiten letras.
           </ion-label>
-      
           <ion-label class="labels" position="stacked">
-            <ion-input class="custom" type="date" name="date" placeholder="Fecha de nacimiento" value="{{ user?.birthday }}"></ion-input>
+            <ion-input formControlName="name" class="custom" type="text" name="name" placeholder="Tu nombre" value="{{ user?.name }}"></ion-input>
           </ion-label>
+
+          <ion-label class="labels" position="stacked">
+            <ion-input formControlName="surname1" class="custom" type="text" name="surname1" placeholder="Apellido 1" value="{{ user?.surname1 }}"></ion-input>
+          </ion-label>
+
+          <ion-label class="labels" position="stacked">
+            <ion-input formControlName="surname2" class="custom" type="text" name="surname2" placeholder="Apellido 2" value="{{ user?.surname2 }}"></ion-input>
+          </ion-label>
+
+          <ion-label class="labels" position="stacked">
+            <ion-input formControlName="telephone" class="custom" type="number" name="telephone" placeholder="Teléfono" value="{{ user?.telephone }}"></ion-input>
+          </ion-label>                        
       
           <ion-label class="labels" position="stacked">
             <ion-input formControlName="email" class="custom" type="email" name="email" placeholder="Correo electrónico" value="{{ user?.email }}"></ion-input>

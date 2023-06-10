@@ -4,9 +4,7 @@ import { Router } from '@angular/router';
 import { AlertController, LoadingController, NavController, Platform } from '@ionic/angular';
 import { User } from 'src/app/interfaces/interfaces';
 import { ApiService } from 'src/app/services/api.service';
-//import { AuthenticationService } from 'src/app/services/authentication.service';
-//import { UtilitiesService } from 'src/app/services/utilities.service';
-//import { codeErrors } from 'src/app/utils/utils';
+
 
 @Component({
   selector: 'app-login',
@@ -48,14 +46,7 @@ export class LoginPage implements OnInit {
   
   }
 
-  /*verPlatos(){
-    this.apiService.get_Companies()
-      .then(data => {
-          this.dishes=data;
-          console.log(this.dishes); //para llamar esta funcion, en home page html crear un boton con la funcion <ion-button (click)="verUsuarios()">Ver usuarios</ion-button>
-      });
-  }
-
+  /*
   getData() {
     this.apiService.getData()
       .subscribe((response) => {
