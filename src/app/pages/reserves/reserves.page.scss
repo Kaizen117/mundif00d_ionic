@@ -1,0 +1,38 @@
+@font-face {
+    font-family: comforta;
+    src: url(/assets/fonts/Comfortaa-Medium.ttf);
+}
+
+@font-face {
+    font-family: raleway;
+    src: url(/assets/fonts/Raleway-Medium.ttf);
+}
+
+@font-face {
+    font-family: ralewayLight;
+    src: url(/assets/fonts/Raleway-Light.ttf);
+}
+
+@font-face {
+    font-family: ralewaySemi;
+    src: url(/assets/fonts/Raleway-SemiBold.ttf);
+}
+
+ion-content{
+    --background: url("/assets/imgs/base-background.jpg");
+}
+
+#title{
+    color:#FFFFFF;
+    font-family: comforta;
+    font-size: 18px;
+    margin-top: 25px;
+    margin-bottom: 25px;
+    margin-left: 25px;
+    text-align: left;
+}
+
+ion-list{
+    margin-left: 25px;
+    margin-right: 25px;
+}

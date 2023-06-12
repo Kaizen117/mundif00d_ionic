@@ -16,23 +16,23 @@
             Solo se permiten letras.
           </ion-label>
           <ion-label class="labels" position="stacked">
-            <ion-input formControlName="name" class="custom" type="text" name="name" placeholder="Tu nombre" value="{{ user?.name }}"></ion-input>
+            <ion-input formControlName="name" class="custom" type="text" name="name" placeholder="Tu nombre" value="{{ user?.data.name }}"></ion-input>
           </ion-label>
 
           <ion-label class="labels" position="stacked">
-            <ion-input formControlName="surname1" class="custom" type="text" name="surname1" placeholder="Apellido 1" value="{{ user?.surname1 }}"></ion-input>
+            <ion-input formControlName="surname1" class="custom" type="text" name="surname1" placeholder="Apellido 1" value="{{ user?.data.surname1 }}"></ion-input>
           </ion-label>
 
           <ion-label class="labels" position="stacked">
-            <ion-input formControlName="surname2" class="custom" type="text" name="surname2" placeholder="Apellido 2" value="{{ user?.surname2 }}"></ion-input>
+            <ion-input formControlName="surname2" class="custom" type="text" name="surname2" placeholder="Apellido 2" value="{{ user?.data.surname2 }}"></ion-input>
           </ion-label>
 
           <ion-label class="labels" position="stacked">
-            <ion-input formControlName="telephone" class="custom" type="number" name="telephone" placeholder="Teléfono" value="{{ user?.telephone }}"></ion-input>
+            <ion-input formControlName="telephone" class="custom" type="number" name="telephone" placeholder="Teléfono" value="{{ user?.data.telephone }}"></ion-input>
           </ion-label>                        
       
           <ion-label class="labels" position="stacked">
-            <ion-input formControlName="email" class="custom" type="email" name="email" placeholder="Correo electrónico" value="{{ user?.email }}"></ion-input>
+            <ion-input formControlName="email" class="custom" type="email" name="email" placeholder="Correo electrónico" value="{{ user?.data.email }}"></ion-input>
           </ion-label>
        
           <ion-label class="labels" position="stacked">

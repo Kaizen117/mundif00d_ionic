@@ -20,7 +20,13 @@
 
 ion-content{
     --background: antiquewhite;
-    --padding-top: 65px;
+    --padding-top: 85px;
+}
+
+ion-list{
+    background: antiquewhite;
+    margin-left: 25px;
+    margin-right: 25px;
 }
 
 #title{
@@ -36,6 +42,10 @@ ion-content{
     z-index: 1;
 }
 
+.body{
+    font-family: raleway;
+}
+
 #arrowLeft{    
     position: absolute;
     top: 23pt;
@@ -49,13 +59,31 @@ ion-item{
     --background: antiquewhite;
 }
 
-.price{
-    color: gray;
+.category{
+    font-size: 18px;
     font-weight: bold;
+    color: black;
+    text-align: center;
+}
+
+.available{
+    font-weight: bold;
+    color: black;
+}
+
+.price{
+    color: black;
+    font-weight: bold;
+    font-size: 16px;
     float: right;
+    margin-right: 10px;
 }
 
 button{
     background: #ffc409;
-    color: blue;
+}
+
+span{
+    font-weight: bold;
+    font-size: 14px;
 }

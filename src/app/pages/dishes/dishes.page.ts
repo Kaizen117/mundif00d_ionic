@@ -11,12 +11,11 @@ import { Dish } from 'src/app/interfaces/interfaces';
 })
 export class DishesPage implements OnInit {
 
-  //dishes: Dishes[] = [];  
   dishes: any;
+  dishesCategory: any;
+
   fav: Dish[] = [];
   enable=true;
-
-  dishess: Dish[] = [];
   
   @ViewChild(IonInfiniteScroll, {static: true}) infiniteScroll: IonInfiniteScroll | undefined;
 
@@ -27,10 +26,47 @@ export class DishesPage implements OnInit {
     ) { }
 
   ngOnInit() {
-    this.showDishes();
-    this.loadFavorites();    
-
+    //this.loadFavorites();
   }
+
+  async ionViewWillEnter(){ 
+    this.showLoading();
+    //this.showDishes();
+    this.showDishesByCategory();
+    //await this.storage['create']();
+  }
+
+    //todos los platos
+    showDishes(){
+      this.apiService.getAllDishes()
+      .subscribe(dishes => {
+        this.dishes = dishes;
+      }, error => {
+        console.log(error);
+      });    
+    }
+  
+    //platos por categoria (mejor opcion)
+    showDishesByCategory() {    
+      this.apiService.getDishesByCategory().subscribe(
+          (response) => {
+            this.dishesCategory=response;
+            console.log(response);
+          },
+          (error) => {          
+            console.error(error);
+          }
+      );
+    }  
+
+  async showLoading() {
+    const loading = await this.loadingCtrl.create({
+      message: 'Cargando platos...',
+      duration: 2000,
+    });
+
+    loading.present();
+  }  
 
   async loadFavorites(){
     /*if(this.fav.length>0){
@@ -67,7 +103,7 @@ export class DishesPage implements OnInit {
   }
 
   // loadData(event: { target: { complete: () => void; }; }) {
-  //   console.log('Cargando los siguientes juegos...');
+  //   console.log('Cargando los siguientes platos...');
   //   setTimeout(() => {      
   //     this.dishes.push(...this.platos.splice(0,20));
   //     if(this.platos.length==0) {
@@ -79,34 +115,5 @@ export class DishesPage implements OnInit {
   //    }, 1000);
   //  }
 
-  async ionViewWillEnter(){ 
-    this.showLoading();
-    this.showDishes();
-    //await this.storage['create']();
-
-  }
-
-  async showLoading() {
-    const loading = await this.loadingCtrl.create({
-      message: 'Cargando platos...',
-      duration: 2000,
-    });
-
-    loading.present();
-  }
-
-  /*showDishes(): Observable<Dishes[]>{
-    //this.ApiService.getDishes();
-    return this.http.get<Dishes[]>('localhost:8000/api/dishes');
-  }*/
-  
-  showDishes(){
-    this.apiService.obtenerPlatos()
-    .subscribe(dishes => {
-      this.dishes = dishes;
-    }, error => {
-      console.log(error);
-    });    
-  }
 
 }

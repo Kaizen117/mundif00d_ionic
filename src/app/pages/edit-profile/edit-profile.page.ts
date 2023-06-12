@@ -59,7 +59,7 @@ export class EditProfilePage implements OnInit {
     this.apiService.getUserData()
       .then((data: any) => {
         //console.log(data);
-        this.user=data.data.user;
+        this.user=data;
         console.log(this.user);     
     }, (error: any) => {
       console.log("Error: ", error);

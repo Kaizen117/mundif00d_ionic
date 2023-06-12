@@ -24,3 +24,15 @@ export interface Dish {
     created_at?: Date;
     liked?: boolean;     
 }
+
+export interface Reserve {
+    id: number;
+    user_id: number;
+    table_id: number;
+    diner_number: number;
+    date: Date;
+    hour: Date;
+    observations: string;
+    created_at?: Date;
+    updated_at?: Date;     
+}

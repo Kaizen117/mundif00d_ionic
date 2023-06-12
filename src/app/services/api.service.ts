@@ -3,7 +3,7 @@ import { environment } from 'src/environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, Subject, map } from 'rxjs';
 import { AlertController, LoadingController, ToastController } from '@ionic/angular';
-import { User } from '../interfaces/interfaces';
+import { Reserve, User } from '../interfaces/interfaces';
 import { Dish } from '../interfaces/interfaces';
 
 @Injectable({
@@ -22,6 +22,8 @@ export class ApiService {
   data: any;
   category: any;
 
+  reserves: any;
+
   public loading?: HTMLIonLoadingElement;
   public userChanges = new Subject<User>();
 
@@ -36,7 +38,7 @@ export class ApiService {
     console.log(user);
     return new Promise((resolve, reject) => {
       this.http.post<any>(this.apiUrl + '/register', {
-        name: user.name,
+        name: user.name,  
         surname1: user.surname1,
         surname2: user.surname2,
         telephone: user.telephone,
@@ -105,7 +107,7 @@ export class ApiService {
         resolve(data);
         console.log("token ", this.token);
         console.log(data);
-        this.user=data;
+        //this.user=data;
         //this.showToast("Inicio de sesión realizado con éxito");
       }, err=> {
         console.log('Error en el login ' +err);
@@ -144,7 +146,7 @@ export class ApiService {
       this.http.get(this.apiUrl+'/userData', {
         headers: new HttpHeaders().set('Authorization','Bearer '+this.token)
       }).subscribe(data => {
-        data=this.user;
+        //data=this.user;
         resolve(data);
         //this.user = data;
         console.log(data);
@@ -153,12 +155,6 @@ export class ApiService {
         console.log('Error al obtener los datos del usuario ' +err);
       });
     });
-  }
-
-  getUser() {
-    const headers = new HttpHeaders().set('Authorization', 'Bearer ' + this.token);
-    console.log(headers);
-    return this.http.get(`${this.apiUrl}/userData`, { headers }).toPromise();
   }
 
   // updateUser(id: number){
@@ -240,42 +236,35 @@ export class ApiService {
     });
   } 
 
-  /*getDishes(){
-    return this.http.get(this.apiUrl + '/dishes');
- }*/
 
- obtenerPlatos(): Observable<Dish[]> {
-  return this.http.get<any>(this.apiUrl+'/dishes').pipe(
-    map((response: { dishes: any; }) => response.dishes)
-  );
-}  
- 
-  getDishes(){
-    return new Promise(resolve => {
-      this.http.get<Dish>(this.apiUrl+'/dishes', {
-        headers: new HttpHeaders().set('Authorization','Bearer '+this.token)
-      }).subscribe(data => {
-        resolve(data);
-        console.log(data);      
-      }, err => {
-        console.log("token: " , this.token);
-        console.log('Error al mostrar los platos ' +err);
-      });
-    });
+  getAllDishes(): Observable<Dish[]> {
+    return this.http.get<any>(this.apiUrl+'/dishes').pipe(
+      map((response: { dishes: any; }) => response.dishes)
+    );
+  }
+  
+  getDishesByCategory() {
+    return this.http.get<any>(this.apiUrl+'/dishes').pipe(
+      map((response: { dishes: any; }) => response.dishes)
+    );
   }
 
-  /*getData() {
-    return this.http.get('/assets/imgs/dishes');
-  }*/
-
-  // getCompanies(){
+  getReserves(): Observable<Reserve[]> {
+    return this.http.get<any>(this.apiUrl+'/reserves').pipe(
+      map((response: { reserves: any; }) => response.reserves)
+    );
+  }
+ 
+  // getDishes(){
   //   return new Promise(resolve => {
-  //     this.http.get<Dish>(this.apiUrl+'/dishes')
-  //     .subscribe(data => {
-  //       resolve(data)
-  //       console.log(data);
+  //     this.http.get<Dish>(this.apiUrl+'/dishes', {
+  //       headers: new HttpHeaders().set('Authorization','Bearer '+this.token)
+  //     }).subscribe(data => {
+  //       resolve(data);
+  //       console.log(data);      
   //     }, err => {
-  //       console.log(err)
+  //       console.log("token: " , this.token);
+  //       console.log('Error al mostrar los platos ' +err);
   //     });
   //   });
   // }

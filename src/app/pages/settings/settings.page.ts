@@ -34,7 +34,42 @@ export class SettingsPage implements OnInit {
     });
   }
 
-  async showAdvertisement() {
+  async showAdvertisement1() {
+    const alert = await this.alertController.create({
+      header: 'Advertencia',
+      message: 'Va a cerrar su sesión, ¿continuar?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+            console.log('Click en Cancelar');
+            console.log("USER ID: " ,this.user.data.user.id);
+            console.log(this.user);
+          }
+        },
+        {
+          text: 'Aceptar',
+          handler: () => {
+            console.log('Click en Aceptar');
+            console.log("USER ID: " ,this.user.data.user.id);
+            console.log(this.user);
+            try{
+              // this.apiService.deleteUser(this.user.id);
+              this.utilities.showToast("ÉXITO.");
+              this.router.navigate(['/login']);
+            }catch(Exception){
+              this.utilities.showToast("No se pudo cerrar su sesión correctamente.");
+            }           
+          }
+        }
+      ]
+    });
+    await alert.present();
+  }
+
+  async showAdvertisement2() {
     const alert = await this.alertController.create({
       header: 'Advertencia',
       message: '¿Estás seguro de querer eliminar tu cuenta?',
