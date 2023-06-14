@@ -205,7 +205,7 @@ export class ApiService {
         this.showToast("No se ha podido eliinar la cuenta de usuario.");
       });
     });
-  } 
+  }
 
   /*getAllDishes(): Observable<Dish[]> {
     return this.http.get<any>(this.apiUrl+'/dishes').pipe(
