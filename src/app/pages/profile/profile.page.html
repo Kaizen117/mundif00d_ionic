@@ -2,7 +2,7 @@
 <ion-content>
   <p id="title">
     <ion-icon id="arrowLeft" routerLink="/home" src="assets\icons\volver.svg"></ion-icon> Perfil
-    <ion-icon id="settings" routerLink="/settings" src="assets\icons\settings.svg"></ion-icon>
+    <!-- <ion-icon id="settings" routerLink="/settings" src="assets\icons\settings.svg"></ion-icon> -->
   </p>
   
   <div id="container">
@@ -18,7 +18,8 @@
         <p id="name">{{ user?.data.username }}</p>
         <div class="button-container">          
             <ion-button type="custom-button" fill="clear" routerLink="/edit-profile" class="buttons" mode="ios"><span class="botones">Editar perfil</span></ion-button>                      
-            <ion-button type="custom-button" fill="clear" routerLink="/favorites" class="buttons" mode="ios"><span class="botones">Favoritos</span></ion-button>          
+            <ion-button type="custom-button" fill="clear" routerLink="/settings" class="buttons" mode="ios"><span class="botones">Ajustes</span></ion-button>          
+            <!-- <ion-button type="custom-button" fill="clear" routerLink="/favorites" class="buttons" mode="ios"><span class="botones">Favoritos</span></ion-button>           -->
         </div>
       </div>   
   </div>

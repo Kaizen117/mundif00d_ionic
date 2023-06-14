@@ -1,7 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
-import { Dish } from 'src/app/interfaces/interfaces';
+import { Component, Input, OnInit } from '@angular/core';
 import { ApiService } from 'src/app/services/api.service';
 import { UtilitiesService } from 'src/app/services/utilities.service';
 
@@ -12,25 +9,25 @@ import { UtilitiesService } from 'src/app/services/utilities.service';
 })
 export class HomePage implements OnInit {
 
+  @Input() type: any;
   user: any;
-  users: any;
 
   constructor(
     private apiService: ApiService,
     private utilities: UtilitiesService,
-  ) {
-    //this.showUsers();
+  ) {}
+
+  ngOnInit() {    
   }
 
-  ngOnInit() {
-  }
-
-   ionViewWillEnter(){
+  ionViewWillEnter(){
     this.apiService.getUserData()
       .then((data: any) => {
         //console.log(data);
         this.user=data;
-        console.log(this.user);     
+        this.type=data.data.type;
+        console.log(this.user);
+        console.log(this.type);  
     }, (error: any) => {
       console.log("Error: ", error);
       this.utilities.showToast("Error obteniendo el usuario");

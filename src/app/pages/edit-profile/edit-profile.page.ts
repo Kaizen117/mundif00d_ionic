@@ -44,9 +44,7 @@ export class EditProfilePage implements OnInit {
     private apiService: ApiService,
     private router: Router,
     private utilities: UtilitiesService
-  ) {
-    
-  }
+  ) {  }
 
   ngOnInit() {    
   }
@@ -77,9 +75,19 @@ export class EditProfilePage implements OnInit {
   //   }
   // }
 
+ 
+
   public submitForm(): void {
     console.log(this.form.valid);
     console.log(this.form.value);
+
+     /*public submitForm(): void {
+    this.apiService.updateUser(this.form.value).subscribe((user: User) => {
+      this.utilities.showToast('Usuario actualizado correctamente');
+    }, (error: any) => {
+      this.utilities.showToast(codeErrors(error));
+    });
+  }*/
 
     this.apiService.updateUs(this.user).subscribe((user: User) => {
       this.user = user;

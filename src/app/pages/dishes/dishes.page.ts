@@ -3,6 +3,7 @@ import { ApiService } from '../../services/api.service';
 import { IonInfiniteScroll, LoadingController } from '@ionic/angular';
 import { UtilitiesService } from 'src/app/services/utilities.service';
 import { Dish } from 'src/app/interfaces/interfaces';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-dishes',
@@ -11,12 +12,15 @@ import { Dish } from 'src/app/interfaces/interfaces';
 })
 export class DishesPage implements OnInit {
 
-  dishes: any;
-  dishesCategory: any;
+  categories: string[] = [];
+  dishes: any[] = [];
+  filter = '';
+
+  //images: string[]=[];
 
   fav: Dish[] = [];
   enable=true;
-  
+
   @ViewChild(IonInfiniteScroll, {static: true}) infiniteScroll: IonInfiniteScroll | undefined;
 
   constructor(private apiService: ApiService,
@@ -26,38 +30,69 @@ export class DishesPage implements OnInit {
     ) { }
 
   ngOnInit() {
-    //this.loadFavorites();
   }
 
   async ionViewWillEnter(){ 
     this.showLoading();
-    //this.showDishes();
-    this.showDishesByCategory();
+    this.getAllCategories();
+    //this.loadFavorites();
+    //this.getAssetImages();
     //await this.storage['create']();
   }
 
     //todos los platos
-    showDishes(){
+    /*showDishes(){
       this.apiService.getAllDishes()
       .subscribe(dishes => {
         this.dishes = dishes;
       }, error => {
         console.log(error);
       });    
-    }
+    }*/
   
-    //platos por categoria (mejor opcion)
-    showDishesByCategory() {    
-      this.apiService.getDishesByCategory().subscribe(
-          (response) => {
-            this.dishesCategory=response;
-            console.log(response);
-          },
-          (error) => {          
-            console.error(error);
-          }
-      );
-    }  
+   //platos por categoria (mejor opcion) pero sin filtro
+  showDishesByCategory() {    
+    this.apiService.getDishesByCategory().subscribe(
+      (data) => {
+        this.dishes=data;
+        console.log(data);
+        },
+        (error) => {          
+          console.error(error);
+        }
+    );
+  }
+
+  getAllCategories() {
+    this.apiService.getAllCategories().subscribe(
+      (data: string[]) => {
+        this.categories=data;
+        console.log(this.categories);
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
+  }
+
+  categoryFilter(category: string) {
+    this.filter=category;
+    console.log(this.filter);
+    this.apiService.getDishesByOneCategory(category).subscribe(
+      (data: any[]) => {
+        this.dishes = data;
+        console.log(this.dishes);
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
+  }
+
+  resetFilter() {
+    this.filter='';
+    this.dishes=[];
+  }
 
   async showLoading() {
     const loading = await this.loadingCtrl.create({
@@ -67,6 +102,14 @@ export class DishesPage implements OnInit {
 
     loading.present();
   }  
+
+  // getAssetImages() {
+  //   this.http.get<any>('http://localhost:8000/api/images/dishes')
+  //   .subscribe(data => {
+  //     this.images=data.images;
+  //     console.log(this.images);
+  //   });
+  // }
 
   async loadFavorites(){
     /*if(this.fav.length>0){
@@ -114,6 +157,4 @@ export class DishesPage implements OnInit {
   //     event.target.complete();
   //    }, 1000);
   //  }
-
-
 }

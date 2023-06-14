@@ -36,3 +36,11 @@ export interface Reserve {
     created_at?: Date;
     updated_at?: Date;     
 }
+
+export interface Allergen {
+    id: number;
+    dish_id: number;    
+    name: string;
+    created_at?: Date;
+    updated_at?: Date;     
+}

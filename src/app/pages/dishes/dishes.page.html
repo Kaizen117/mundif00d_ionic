@@ -3,15 +3,31 @@
   <p id="title">Nuestra carta</p>
   <div class="body">
 
+    <div class="filters">
+      <ion-button (click)="categoryFilter('Entrantes')">Entrantes</ion-button>
+      <ion-button (click)="categoryFilter('Sopas')">Sopas</ion-button>
+      <ion-button (click)="categoryFilter('Carnes')">Carnes</ion-button>
+      <ion-button (click)="categoryFilter('Pescados')">Pescados</ion-button>
+      <ion-button (click)="categoryFilter('Bebidas')">Bebidas</ion-button>
+      <ion-button (click)="categoryFilter('Postres')">Postres</ion-button>
+      <ion-button (click)="categoryFilter('Vinos')">Vinos</ion-button>
+      <ion-button (click)="categoryFilter('Otros')">Otros</ion-button>
+    </div>
+    <ion-button id="reset" (click)="resetFilter()">Reiniciar Filtro</ion-button>
+    <ion-button id="allDishes" (click)="showDishesByCategory()">Ver todo</ion-button>
+
+    <br/>
     <ion-list #lista>
       <ion-row>
-        <ion-col size="12" size-lg="3" size-md="2" size-sm="6" size-xs="12" *ngFor="let dish of dishesCategory; let i = index">  
+        <ion-col size="12" size-lg="3" size-md="2" size-sm="6" size-xs="12" *ngFor="let dish of dishes; let i = index">  
           <ion-label>
-            <p class="category">{{ dish.category }}</p>
+            <p class="category"><p class="category">{{ dish.category }}</p>
           </ion-label>
-          <!-- <ion-label>
-            <img [src]="dish['image']"> 
-          </ion-label> -->
+          <br/>
+         
+          <img [src]="'assets/imgs/dishes/' + dish.image" alt="{{ dish.name }}">
+          <br/>
+          <br/>
           <ion-label>
             <p>{{ dish.name }}. {{ dish['description'] | descriptionName: enable}}</p>
               <button name="descrip-{{ dish.id }}" class="btn btn-info" (click)="enable=!enable">
@@ -19,33 +35,16 @@
               </button>
           </ion-label>
           <ion-label>
-            <p>Disponible: <span class="available" *ngIf="dish.disponibility===1">Sí ✔️</span><span *ngIf="dish.disponibility===0">No ❌</span>
+            <p>Disponible: <span *ngIf="dish.disponibility===1">Sí ✔️</span><span *ngIf="dish.disponibility===0">No ❌</span>
             <span class="price">{{ dish.price }}€</span>
-
             </p>
+            <br/>
           </ion-label>
         </ion-col>
       </ion-row>
     </ion-list>
-
-    <!-- <ion-grid fixed>
-    <ion-row>
-      <ion-col size="12" size-lg="3" size-md="2" size-sm="6" size-xs="12" *ngFor="let dish of dishes; let i = index">
-        <ion-card color="warning">                                  
-          <ion-card-header>
-            <p>{{ dish.category }}</p>
-            <img [src]="dish['image']">            
-            <ion-card-title> {{ dish['name'] }}</ion-card-title>
-          </ion-card-header>
-          <ion-card-content>
-            <div>
-              <p>{{ dish['description'] | descriptionName: enable}}</p>
-              <button name="descrip-{{ dish.id }}" class="btn btn-info" (click)="enable=!enable">
-                {{ enable ? 'Ver más' : 'Ver menos' }}
-              </button> 
-              <p>Disponible: <span *ngIf="dish.disponibility===1">Sí ✔️</span><span *ngIf="dish.disponibility===0">No ❌</span></p>
-              
-                    
+  </div>
+    <!--                                   
               <ion-label *ngIf="fav.length===0">
                 <ion-button class="btn btn-info" (click)="saveFav(juego)">
                   <ion-icon name='star-outline'></ion-icon>
@@ -79,7 +78,7 @@
       
     </ion-row>
   </ion-grid> -->
-</div>
+
     
 
     <!-- 
@@ -87,23 +86,5 @@
             <img data-src="dish['image']"> 
             <img data-src="{{dish.image}}">             
           </ion-thumbnail> 
-        
-      </ion-item>        
-    </ion-list>       -->
-    
-    
-    
-    
-    
-    <!-- <ion-list #lista>
-      <ion-row>
-        <ion-col *ngFor="let dish of dishes; let i = index">  
-          <ion-label>
-            <p>{{ dish.name }}</p>         
-            <p>{{ dish.description }}</p>         
-            <p class="price">{{ dish.price }}€</p>
-          </ion-label>
-        </ion-col>
-      </ion-row>
-    </ion-list> -->
+        -->              
 </ion-content>

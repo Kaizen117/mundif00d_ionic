@@ -5,7 +5,7 @@
     </ion-header>
 
     <div class="saludo">
-      <div class="hey">Bienvenido/a <p class="username">{{ user?.name }}</p>,</div> ¡Cómete el mundo!      
+      <div class="hey">Bienvenido/a <p class="username">{{ user?.data.name }}</p>,</div> ¡Cómete el mundo!      
     </div>  
     
     <p class="text">Novedades</p>
@@ -37,4 +37,4 @@
       </div> -->               
   </div>
 </ion-content>
-<app-footer></app-footer>
+<app-footer [type]="type"></app-footer>

@@ -1,20 +1,55 @@
-<ion-content [fullscreen]="true">
-  <p id="title">Rerservas actuales</p>
+<ion-content [fullscreen]="true">  
+  <p id="title"><ion-icon id="arrowLeft" routerLink="/home" src="assets\icons\volver.svg"></ion-icon> Reservas actuales</p>
   <div class="body">
 
     <ion-list #lista>
       <ion-row>
-        <ion-col size="12" size-lg="3" size-md="2" size-sm="6" size-xs="12" *ngFor="let reserve of reserves; let i = index">  
-          <ion-label>
-            <p class="user">{{ reserve.user_id }}</p>
-            <p class="table">{{ reserve.table_id }}</p>
-            <p class="diner_number">{{ reserve.diner_number }}</p>
-            <p class="date">{{ reserve.date }}, {{ reserve.hour }}</p>
-            <p class="observations">{{ reserve.observations}}</p>
-          </ion-label>                 
+        <ion-col size="12" size-lg="3" size-md="2" size-sm="6" size-xs="12" *ngFor="let reserve of reserves; let i = index">
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title>Reserva {{ i+1 }}</ion-card-title>
+            </ion-card-header>
+
+            <ion-card-content class="card-content-inner">
+              <ul>
+                <li>
+                  <ion-label>
+                    <p class="text">Nombre y apellidos:  </p>{{ reserve.user?.name }} {{ reserve.user?.surname1 }} {{ reserve.user?.surname2 }}
+                  </ion-label>
+                  <ion-label>
+                    <p class="text">Teléfono de contacto:  </p>{{ reserve.user?.telephone | slice: 0:3 }}-{{ reserve.user?.telephone | slice: 3:6 }}-{{ reserve.user?.telephone | slice: 6 }}
+                  </ion-label>
+                </li>
+
+                <li>
+                  <ion-label>
+                    <p class="text">Mesa reservada: </p>{{ reserve.table_id }}
+                  </ion-label>
+                </li>
+
+                <li>                  
+                  <ion-label>
+                    <p class="text">Número de comensales: </p>{{ reserve.diner_number }}
+                  </ion-label>
+                </li>
+                
+                <li>
+                  <ion-label>
+                    <p class="text">Fecha y hora: </p>{{ reserve.date | date: 'dd MMM yyyy' }}, {{ reserve.hour }}
+                  </ion-label>
+                </li>
+
+                <li>
+                  <ion-label>
+                    <p class="text">Observaciones: </p>{{ reserve.observations }}
+                  </ion-label>
+                </li>
+              </ul>
+            </ion-card-content>
+          </ion-card>
         </ion-col>
       </ion-row>
     </ion-list>    
   </div>
 </ion-content>
-<app-footer type="waiters"></app-footer>
+<app-footer [type]="type"></app-footer>

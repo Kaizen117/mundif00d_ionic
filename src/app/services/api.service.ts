@@ -4,25 +4,18 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, Subject, map } from 'rxjs';
 import { AlertController, LoadingController, ToastController } from '@ionic/angular';
 import { Reserve, User } from '../interfaces/interfaces';
-import { Dish } from '../interfaces/interfaces';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
 
-  dishes: any;
   apiUrl='http://localhost:8000/api';
   token: any;
   id: number=0;
-  
-  user: any;
   email: any;
-  password: any;
-  data: any;
-  category: any;
-
-  reserves: any;
+  password: any;  
+  userId: number=0;
 
   public loading?: HTMLIonLoadingElement;
   public userChanges = new Subject<User>();
@@ -31,7 +24,7 @@ export class ApiService {
     private http: HttpClient,
     private alertController: AlertController,
     private toast: ToastController,
-    private loadingCtrl: LoadingController
+    //private loadingCtrl: LoadingController
   ) { }  
 
   registerUser(user: any): Promise<any> {
@@ -74,22 +67,7 @@ export class ApiService {
         console.log(this.token); 
       });
     });
-  }
-  /*getData(): Observable<any> {
-    const url = `${this.apiUrl}/data`;
-    return this.http.get(url);
-  }
-
-  // Solicitud POST con headers de autenticación
-  postWithAuth(requestBody: any): Observable<any> {
-    const url = `${this.apiUrl}/login`;
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${this.token}`
-    });
-    console.log(this.token);
-    return this.http.post(url, requestBody, { headers });
-  }*/
+  } 
 
   login_real(n_email: string, n_password: string){//login app
     //console.log(n_email, " ", n_password);
@@ -107,7 +85,6 @@ export class ApiService {
         resolve(data);
         console.log("token ", this.token);
         console.log(data);
-        //this.user=data;
         //this.showToast("Inicio de sesión realizado con éxito");
       }, err=> {
         console.log('Error en el login ' +err);
@@ -140,17 +117,15 @@ export class ApiService {
     });
   }
 
-  getUserData(){
+  getUserData(){//usuario logueado
     //console.log(id);
     return new Promise(resolve => {
       this.http.get(this.apiUrl+'/userData', {
         headers: new HttpHeaders().set('Authorization','Bearer '+this.token)
-      }).subscribe(data => {
-        //data=this.user;
-        resolve(data);
-        //this.user = data;
+      }).subscribe(data => {        
+        resolve(data);        
         console.log(data);
-        console.log(this.token);
+        //console.log(this.token);
       }, err => {
         console.log('Error al obtener los datos del usuario ' +err);
       });
@@ -171,7 +146,6 @@ export class ApiService {
   // }
 
   updateUser(user: any){
-    //console.log(this.token);
     //console.log(id);
     return new Promise(resolve => {
       this.http.post(this.apiUrl+'/profile/'+user.id,
@@ -220,11 +194,8 @@ export class ApiService {
   deleteUser(id: number){
     //console.log(id);
     return new Promise(resolve => {
-      this.http.post(this.apiUrl+'/user/delete/'+id,
-       {
-        user_id: id
-       },
-       {
+      this.http.delete(this.apiUrl+'/user/delete/'+id,       
+      {
         headers: new HttpHeaders().set('Authorization','Bearer '+this.token)
       }).subscribe(data => {
         resolve(data);
@@ -236,24 +207,59 @@ export class ApiService {
     });
   } 
 
-
-  getAllDishes(): Observable<Dish[]> {
+  /*getAllDishes(): Observable<Dish[]> {
     return this.http.get<any>(this.apiUrl+'/dishes').pipe(
       map((response: { dishes: any; }) => response.dishes)
     );
-  }
+  }*/
   
+  getAllCategories(){
+    return this.http.get<any>(this.apiUrl+'/categories').pipe(
+      map((response: { categories: any; }) => response.categories)
+    );
+  }
+
   getDishesByCategory() {
     return this.http.get<any>(this.apiUrl+'/dishes').pipe(
       map((response: { dishes: any; }) => response.dishes)
     );
   }
 
-  getReserves(): Observable<Reserve[]> {
-    return this.http.get<any>(this.apiUrl+'/reserves').pipe(
-      map((response: { reserves: any; }) => response.reserves)
+  getDishesByOneCategory(category: string){
+    return this.http.get<any>(this.apiUrl+'/dishes/'+category).pipe(
+      map((response: { dishes: any; }) => response.dishes)
     );
   }
+
+  getReserves() {
+    return this.http.get<any[]>(this.apiUrl+'/reservesUser');
+  }
+
+  /*addReserve(reserve: any): Observable<any> {
+    const url = `${this.apiUrl}/addReserve`;
+    return this.http.post(url, reserve);
+  }
+
+  getReserve(id: number): Observable<any> {
+    const url = `${this.apiUrl}/reserves/${id}`;
+    return this.http.get(url);
+  }
+
+  updateReserve(id: number, reserve: any): Observable<any> {
+    const url = `${this.apiUrl}/reserves/update/${id}`;
+    return this.http.put(url, reserve);
+  }
+
+  deleteReserve(id: number): Observable<any> {
+    const url = `${this.apiUrl}/reserves/delete${id}`;
+    return this.http.delete(url);
+  }*/
+  
+  /*getAllergens(): Observable<Allergen[]> {
+    return this.http.get<any>(this.apiUrl+'/allergens').pipe(
+      map((response: { allergens: any; }) => response.allergens)
+    );
+  }*/
  
   // getDishes(){
   //   return new Promise(resolve => {
@@ -261,7 +267,7 @@ export class ApiService {
   //       headers: new HttpHeaders().set('Authorization','Bearer '+this.token)
   //     }).subscribe(data => {
   //       resolve(data);
-  //       console.log(data);      
+  //       console.log(data);
   //     }, err => {
   //       console.log("token: " , this.token);
   //       console.log('Error al mostrar los platos ' +err);
@@ -277,13 +283,5 @@ export class ApiService {
     });
     toast.present();
   }
-
-  /*async showLoading(message?: string, duration?: number) {
-    this.loading=await this.loadingCtrl.create({
-      message: message ? message : null,
-      duration: duration ? duration : null
-    });
-    return this.loading.present();
-  }*/
 
 }

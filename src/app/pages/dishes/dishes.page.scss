@@ -31,7 +31,7 @@ ion-list{
 
 #title{
     font-weight: bold;
-    font-family: "Poppins-SemiBold";
+    font-family: raleway;
     font-size: 20px;
     color:#3B3A39;
     margin:0 auto;
@@ -66,9 +66,55 @@ ion-item{
     text-align: center;
 }
 
-.available{
+p{
+    color: gray;
+}
+
+button{
+    color: orangered;
+}
+
+.filters{
+    display: grid;
+    font-family: raleway;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 5px;
+    margin-left: 25px;
+    margin-right: 25px;
+}
+
+ion-button{    
+    --background: orange ;
+    --border-radius: 25px;
+    color: white;
     font-weight: bold;
-    color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    margin-left: 10px;
+    margin-right: 5px;
+    width: 85%;      
+}
+
+#reset{
+    --background: lightblue;
+    display: flex;
+    margin: 0 auto;   
+    margin-top: 10px;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+}
+
+#allDishes{
+    --background: #F86774;
+    display: flex;
+    margin: 0 auto;   
+    margin-top: 10px;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
 }
 
 .price{
@@ -79,11 +125,8 @@ ion-item{
     margin-right: 10px;
 }
 
-button{
-    background: #ffc409;
-}
-
 span{
     font-weight: bold;
+    color: black;
     font-size: 14px;
 }

@@ -19,7 +19,6 @@ export class ProfilePage implements OnInit {
     private apiService: ApiService,
     private loadingCtrl: LoadingController,
     private utilities: UtilitiesService,
-    //public auth: AuthenticationService
   ) { }
 
   ngOnInit() {
@@ -44,8 +43,6 @@ export class ProfilePage implements OnInit {
     this.loadUserData();
   }
 
-
-
   async showLoading() {
     const loading = await this.loadingCtrl.create({
       message: 'Cargando...',
@@ -65,14 +62,6 @@ export class ProfilePage implements OnInit {
       console.log("Error: ", error);
       this.utilities.showToast("Error obteniendo el usuario");
     });
-  }
-
-  /*public submitForm(): void {
-    this.apiService.updateUser(this.form.value).subscribe((user: User) => {
-      this.utilities.showToast('Usuario actualizado correctamente');
-    }, (error: any) => {
-      this.utilities.showToast(codeErrors(error));
-    });
-  }*/
+  }  
 
 }

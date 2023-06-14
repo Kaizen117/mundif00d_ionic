@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController, LoadingController, ToastController } from '@ionic/angular';
 import { User } from 'src/app/interfaces/interfaces';
@@ -12,6 +12,7 @@ import { UtilitiesService } from 'src/app/services/utilities.service';
 })
 export class SettingsPage implements OnInit {
 
+  @Input() type: any;
   user: any;  
   
   constructor(
@@ -24,9 +25,10 @@ export class SettingsPage implements OnInit {
 
   ionViewWillEnter(){
       this.apiService.getUserData()
-      .then(data => {
+      .then((data: any) => {
         console.log(data);
         this.user=data;
+        this.type=data.data.type;
         console.log(this.user);     
     }, (error: any) => {
       console.log("Error: ", error);
@@ -45,7 +47,7 @@ export class SettingsPage implements OnInit {
           cssClass: 'secondary',
           handler: () => {
             console.log('Click en Cancelar');
-            console.log("USER ID: " ,this.user.data.user.id);
+            console.log("USER ID: " ,this.user.data.id);
             console.log(this.user);
           }
         },
@@ -53,12 +55,12 @@ export class SettingsPage implements OnInit {
           text: 'Aceptar',
           handler: () => {
             console.log('Click en Aceptar');
-            console.log("USER ID: " ,this.user.data.user.id);
+            console.log("USER ID: " ,this.user.data.id);
             console.log(this.user);
             try{
-              // this.apiService.deleteUser(this.user.id);
-              this.utilities.showToast("ÉXITO.");
-              this.router.navigate(['/login']);
+              this.utilities.showToast("Éxito, sesión cerrada.");
+              this.loading();
+              //this.router.navigate(['/login']);
             }catch(Exception){
               this.utilities.showToast("No se pudo cerrar su sesión correctamente.");
             }           
@@ -80,7 +82,7 @@ export class SettingsPage implements OnInit {
           cssClass: 'secondary',
           handler: () => {
             console.log('Click en Cancelar');
-            console.log("USER ID: " ,this.user.data.user.id);
+            console.log("USER ID: " ,this.user.data.id);
             console.log(this.user);
           }
         },
@@ -88,10 +90,10 @@ export class SettingsPage implements OnInit {
           text: 'Aceptar',
           handler: () => {
             console.log('Click en Aceptar');
-            console.log("USER ID: " ,this.user.data.user.id);
-            console.log(this.user);
+            // console.log("USER ID: " ,this.user.data.id);
+            // console.log(this.user);
             try{
-              this.apiService.deleteUser(this.user.id);
+              this.apiService.deleteUser(this.user.data.id);
               this.utilities.showToast("CUENTA ELIMINADA CON ÉXITO");
               this.router.navigate(['/login']);
             }catch(Exception){
