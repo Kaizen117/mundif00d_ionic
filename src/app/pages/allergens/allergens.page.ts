@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { LoadingController } from '@ionic/angular';
 import { ApiService } from 'src/app/services/api.service';
 import { UtilitiesService } from 'src/app/services/utilities.service';
 
@@ -14,12 +15,14 @@ export class AllergensPage implements OnInit {
 
   constructor(private apiService: ApiService,
     private utilities: UtilitiesService,
+    private loadingCtrl: LoadingController
   ) { }
 
   ngOnInit() {
   }
 
   ionViewWillEnter(){
+    this.showLoading();
     this.apiService.getUserData()
       .then((data: any) => {
         //console.log(data);
@@ -32,5 +35,13 @@ export class AllergensPage implements OnInit {
       this.utilities.showToast("Error obteniendo el usuario");
     });
   } 
+  
+  async showLoading() {
+    const loading = await this.loadingCtrl.create({
+      message: 'Cargando alérgenos...',
+      duration: 1000,
+    });
 
+    loading.present();
+  }
 }

@@ -39,18 +39,18 @@ export class ProfilePage implements OnInit {
   }
 
   ionViewWillEnter(){ 
-    this.showLoading();
+    //this.showLoading();
     this.loadUserData();
   }
 
-  async showLoading() {
+  /*async showLoading() {
     const loading = await this.loadingCtrl.create({
       message: 'Cargando...',
       duration: 500,
     });
 
     loading.present();
-  }
+  }*/
 
   loadUserData(){
     this.apiService.getUserData()

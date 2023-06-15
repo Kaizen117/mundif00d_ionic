@@ -56,8 +56,8 @@ export class RegisterPage implements OnInit {
       this.router.navigate(['/login']);
     }).catch(error => {
       const tlf=error.error.error.telephone;
-      const email=error.error.error.username;
-      const user=error.error.error.email;
+      const email=error.error.error.email;
+      const user=error.error.error.username;
       // Funciona correctamente: 
       // console.log(error);
       // console.log(error.error);

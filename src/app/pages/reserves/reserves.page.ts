@@ -25,7 +25,7 @@ export class ReservesPage implements OnInit {
   }
 
   async ionViewWillEnter(){ 
-    this.showLoading();
+    //this.showLoading();
     this.apiService.getUserData()
       .then((data: any) => {
         //console.log(data);
@@ -51,16 +51,17 @@ export class ReservesPage implements OnInit {
     });
   }*/
 
+  //ordena fecha de reservas con los datos de la tabla users
   showReserves(){
-    this.apiService.getReserves().subscribe(
-      data => {
-        this.reserves = data.sort((a, b) => {
-          // funcion javascript para ordenar valores
-          const dateA = new Date(a.date + ' ' + a.hour);
-          const dateB = new Date(b.date + ' ' + b.hour);
-          return dateA.getTime() - dateB.getTime();
-        });
+    this.apiService.getReserves()
+    .subscribe(data => {
+      this.reserves = data.sort((a, b) => {
+        // funcion javascript para ordenar valores
+        const dateA = new Date(a.date + ' ' + a.hour);
+        const dateB = new Date(b.date + ' ' + b.hour);
+        return dateA.getTime() - dateB.getTime();
       });
+    });
   }
   
   async showLoading() {

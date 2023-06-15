@@ -5,6 +5,7 @@ import { ApiService } from 'src/app/services/api.service';
 import { confirmPassword } from 'src/app/utils/utils';
 import { User } from 'src/app/interfaces/interfaces';
 import { UtilitiesService } from 'src/app/services/utilities.service';
+import { LoadingController } from '@ionic/angular';
 
 @Component({
   selector: 'app-edit-profile',
@@ -25,121 +26,82 @@ export class EditProfilePage implements OnInit {
   });*/ 
   
   form=new FormGroup({
-    name: new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(25), Validators.pattern(/^[A-Z][a-z\s\u00E0-\u00FC\u00f1]*$/i)]),
-    surname1: new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(30), Validators.pattern(/^[A-Z][a-z\s\u00E0-\u00FC\u00f1]*$/i)]),
-    surname2: new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(30), Validators.pattern(/^[A-Z][a-z\s\u00E0-\u00FC\u00f1]*$/i)]),
-    telephone: new FormControl('', [Validators.required, Validators.minLength(9), Validators.maxLength(9), Validators.pattern('^[0-9]{9}$')]),
-    address: new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(150)]),
-    email: new FormControl('', [Validators.required, Validators.email, Validators.minLength(6), Validators.maxLength(50), Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]),
-    //username: new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(30), Validators.pattern(/^[a-zA-Z0-9\s\u00E0-\u00FC\u00f1]*$/i)]),
-    password: new FormControl('', [Validators.required, Validators.minLength(6)]),
-    c_password: new FormControl('', [Validators.required, Validators.minLength(6)])
+    name: new FormControl('', [Validators.minLength(1), Validators.maxLength(25), Validators.pattern(/^[A-Z][a-z\s\u00E0-\u00FC\u00f1]*$/i)]),
+    surname1: new FormControl('', [Validators.minLength(1), Validators.maxLength(30), Validators.pattern(/^[A-Z][a-z\s\u00E0-\u00FC\u00f1]*$/i)]),
+    surname2: new FormControl('', [Validators.minLength(1), Validators.maxLength(30), Validators.pattern(/^[A-Z][a-z\s\u00E0-\u00FC\u00f1]*$/i)]),
+    telephone: new FormControl('', [Validators.minLength(9), Validators.maxLength(9), Validators.pattern('^[0-9]{9}$')]),
+    address: new FormControl('', [Validators.minLength(1), Validators.maxLength(150)]),
+    email: new FormControl('', [ Validators.email, Validators.minLength(6), Validators.maxLength(50), Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]),
+    //username: new FormControl('', [Validators.minLength(1), Validators.maxLength(30), Validators.pattern(/^[a-zA-Z0-9\s\u00E0-\u00FC\u00f1]*$/i)]),
+    password: new FormControl('', [Validators.minLength(6)]),
+    password_confirmation: new FormControl('', [Validators.minLength(6), confirmPassword])
   });
 
+  values: any;
   user: any;
+  update: any;
+
   isLoading: boolean = true;
 
   constructor(
     //private formBuilder: FormBuilder,
     private apiService: ApiService,
-    private router: Router,
-    private utilities: UtilitiesService
+    private utilities: UtilitiesService,
+    private loadingCtrl: LoadingController
   ) {  }
 
   ngOnInit() {    
   }
 
   async ionViewWillEnter(){
-    await this.getUserData();
+    this.showLoading();
+    this.getUserData();
+  }
+
+  async showLoading() {
+    const loading = await this.loadingCtrl.create({
+      message: 'Cargando datos...',
+      duration: 500,
+    });
+
+    loading.present();
   }
   
   async getUserData() {
     this.apiService.getUserData()
       .then((data: any) => {
-        //console.log(data);
         this.user=data;
-        console.log(this.user);     
     }, (error: any) => {
       console.log("Error: ", error);
       this.utilities.showToast("Error obteniendo el usuario.");
     });
   }
 
-  // passwordMatchValidator(formGroup: FormGroup) {
-  //   const password = formGroup.get('password').value;
-  //   const repeatPassword = formGroup.get('repeatPassword').value;
-  //   if (password !== repeatPassword) {
-  //     formGroup.get('repeatPassword').setErrors({ passwordMismatch: true });
-  //   } else {
-  //     formGroup.get('repeatPassword').setErrors(null);
-  //   }
-  // }
-
- 
-
   public submitForm(): void {
-    console.log(this.form.valid);
-    console.log(this.form.value);
-
-     /*public submitForm(): void {
-    this.apiService.updateUser(this.form.value).subscribe((user: User) => {
-      this.utilities.showToast('Usuario actualizado correctamente');
-    }, (error: any) => {
-      this.utilities.showToast(codeErrors(error));
-    });
-  }*/
-
-    this.apiService.updateUs(this.user).subscribe((user: User) => {
-      this.user = user;
-      console.log(this.user);
-    }, (error: any) => {
+    console.log("Form valido: "+this.form.valid);
+    console.log(this.form.value);    
+    this.values=this.form.value;
+    this.update={
+      //id: this.user.data.id,
+      name: this.values.name,
+      surname1: this.values.surname1,
+      surname2: this.values.surname2,
+      address: this.values.address,
+      telephone: this.values.telephone,
+      email: this.values.email,
+      password: this.values.password,
+      password_confirmation: this.values.password_confirmation
+    }
+    console.log(this.update);
+    console.log(this.user.data);
+    this.apiService.updateUser(this.update)
+    .then(data => {
+      //this.user = data;
+      //console.log(this.user);
+      this.utilities.showToast("Éxito. Perfil actualizado satisfactoriamente.");
+    }, error => {
       console.log("Error: ", error);
-      //this.utilities.showToast("Error obteniendo el usuario");
-    });
-    
-    //this.isSubmitted = true;
-
-    // if (this.userId) {
-    //   this.apiService.updateUser(this.userId)
-    //     .subscribe(
-    //       async (response: any) => {
-    //       // (          response: any) => {
-    //         console.log('Campo actualizado correctamente');
-    //         // Realiza cualquier acción adicional necesaria
-    //       },
-    //       (          error: any) => {
-    //         console.error('Error al actualizar el campo:', error);
-    //         // Manejo de errores
-    //       }
-    //     );
-    // }
-    // if (!this.form.valid) {
-    //   console.log('Please provide all the required values');
-    // } else {
-    //   const updatedUserData = {
-    //     name: this.form.value.name || this.user.name, // Conserva el nombre actual si no se rellena el campo
-    //     email: this.form.value.email || this.user.email, // Conserva el email actual si no se rellena el campo
-    //     password: this.form.value.password, // Incluye la contraseña aunque esté en blanco
-    //   };
-    //   this.apiService.updateUser(updatedUserData).subscribe(
-    //     (response) => {
-    //       console.log('Usuario actualizado satisfactoriamente.', response);
-    //       this.router.navigate(["/profile"]);
-    //     },
-    //     (error) => {
-    //       console.error('Error, no se pudo actualziar el usuario', error);
-    //     }
-    //   );
-    // }
-
-/*
-    this.apiService.updateUser(this.form.value).subscribe((response) => {
-      this.utilities.showToast('Usuario actualizado correctamente');
-      this.router.navigate(["/profile"]);
-    }, (error) => {
-      this.utilities.showToast(codeErrors(error));
-    });*/
+      this.utilities.showToast("Error actualizando el usuario");
+    });    
   }
-
-
 }

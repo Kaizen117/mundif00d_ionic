@@ -24,7 +24,7 @@ export class ApiService {
     private http: HttpClient,
     private alertController: AlertController,
     private toast: ToastController,
-    //private loadingCtrl: LoadingController
+    private loadingCtrl: LoadingController
   ) { }  
 
   registerUser(user: any): Promise<any> {
@@ -148,46 +148,28 @@ export class ApiService {
   updateUser(user: any){
     //console.log(id);
     return new Promise(resolve => {
-      this.http.post(this.apiUrl+'/profile/'+user.id,
+      this.http.put(this.apiUrl+'/profile/'+user.id,
         {
+          id: user.id,
           name: user.name,
           surname1: user.surname1,
           surname2: user.surname2,
           address: user.address,
           telephone: user.telephone,
           email: user.email,
-          password: user.password          
+          password: user.password,
+          password_confirmation: user.password_confirmation
         },
         {        
          headers: new HttpHeaders().set('Authorization','Bearer '+this.token)      
       }).subscribe(data => {
         resolve(data);
         console.log(data);
+        this.showLoading();
       }, err => {
         console.log('Error al actualizar el usuario ' +err);
-        this.showToast("No se ha podido actualizar el usuario.");
+        this.showToast("Error. Faltan campos o datos inválidos.");
       });
-    });
-  }
-
-  updateU(id: number){
-    return new Promise(resolve => {
-      this.http.post(this.apiUrl+'/profile', {user_id: id}, {
-        headers: new HttpHeaders().set('Authorization','Bearer '+this.token)
-      }).subscribe(data => {        
-        resolve(data);
-        console.log(data);
-      }, err => {
-        console.log('Error al actualizar el usuario ' +err);
-        this.showToast("No se ha podido actualizar el usuario.");
-      });
-    });
-  }
-
-  public updateUs(user: User): any {
-    this.userChanges.next(user);
-    return this.http.post<User>(this.apiUrl+'/profile/',{
-      headers: new HttpHeaders().set('Authorization','Bearer '+this.token)
     });
   }
 
@@ -274,6 +256,15 @@ export class ApiService {
   //     });
   //   });
   // }
+
+  async showLoading() {
+    const loading = await this.loadingCtrl.create({
+      message: 'Cargando datos...',
+      duration: 1000,
+    });
+
+    loading.present();
+  }
 
   public async showToast(message: string) {
     const toast=await this.toast.create({

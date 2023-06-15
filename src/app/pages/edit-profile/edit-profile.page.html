@@ -14,36 +14,63 @@
       <div id="body">
           <ion-label *ngIf="form.controls.name.errors?.['pattern']">
             Solo se permiten letras.
-          </ion-label>
+          </ion-label>         
           <ion-label class="labels" position="stacked">
             <ion-input formControlName="name" class="custom" type="text" name="name" placeholder="Tu nombre" value="{{ user?.data.name }}"></ion-input>
           </ion-label>
 
+          <ion-label *ngIf="form.controls.surname1.errors?.['pattern']">
+            Solo se permiten letras.
+          </ion-label>
           <ion-label class="labels" position="stacked">
             <ion-input formControlName="surname1" class="custom" type="text" name="surname1" placeholder="Apellido 1" value="{{ user?.data.surname1 }}"></ion-input>
           </ion-label>
 
+          <ion-label *ngIf="form.controls.surname2.errors?.['pattern']">
+            Solo se permiten letras.
+          </ion-label>
           <ion-label class="labels" position="stacked">
             <ion-input formControlName="surname2" class="custom" type="text" name="surname2" placeholder="Apellido 2" value="{{ user?.data.surname2 }}"></ion-input>
           </ion-label>
 
+          <!-- TLF -->         
+          <ion-label *ngIf="form.controls.telephone.errors?.['pattern']">
+            Use un teléfono válido. Ej: 956112233
+          </ion-label>
           <ion-label class="labels" position="stacked">
-            <ion-input formControlName="telephone" class="custom" type="number" name="telephone" placeholder="Teléfono" value="{{ user?.data.telephone }}"></ion-input>
-          </ion-label>                        
+            <ion-input formControlName="telephone" class="custom" type="tel" name="telephone" placeholder="Teléfono" maxlength="9" value="{{ user?.data.telephone }}"></ion-input>
+          </ion-label>    
+          
+          <!-- DIRECCION -->
+          <ion-label class="labels" position="stacked">
+            <ion-input formControlName="address" class="custom" type="text" name="address" placeholder="Dirección" value="{{ user?.data.address }}"></ion-input>
+          </ion-label> 
       
+          <!-- EMAIL -->
+          <ion-label *ngIf="form.controls.email.errors?.['pattern']">
+            Use un email válido.
+          </ion-label> 
           <ion-label class="labels" position="stacked">
             <ion-input formControlName="email" class="custom" type="email" name="email" placeholder="Correo electrónico" value="{{ user?.data.email }}"></ion-input>
           </ion-label>
        
+          <!-- PWD -->
+          <ion-label *ngIf="form.controls['password'].invalid">
+            La contraseña debe ser mínimo 6 caracteres
+          </ion-label>
           <ion-label class="labels" position="stacked">
             <ion-input formControlName="password" class="custom" type="password" name="password" placeholder="Introduce la nueva contraseña"></ion-input>
           </ion-label>
         
+          <!-- REP PWD -->
+          <ion-label *ngIf="form.controls['password_confirmation'].invalid">
+            Las contraseñas no coinciden
+          </ion-label> 
           <ion-label class="labels" position="stacked">
-            <ion-input class="custom" type="password" placeholder="Repite la contraseña"></ion-input>
+            <ion-input formControlName="password_confirmation" class="custom" type="password" name="password_confirmation" placeholder="Repite la contraseña"></ion-input>
           </ion-label>
       </div>
-      <ion-button type="submit" routerLink="/profile" id="save" mode="ios" expand="block">Guardar cambios</ion-button> <!-- click="save()"-->
+      <ion-button type="submit" [disabled]="!form.valid" mode="ios" expand="block">Guardar cambios</ion-button> <!-- click="save()"-->
     </form>    
   </div>
 </ion-content>
