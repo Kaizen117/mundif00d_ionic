@@ -10,7 +10,7 @@ import { Reserve, User } from '../interfaces/interfaces';
 })
 export class ApiService {
 
-  apiUrl='http://localhost:8000/api';
+  apiUrl='http://161.22.45.97/api';
   //apiUrl='http://192.168.0.16:8000/api';
   //apiUrl='https://mundifood-6bcd5.firebaseapp.com/api'
   

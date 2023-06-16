@@ -5,7 +5,7 @@ const config: CapacitorConfig = {
   appName: 'mundifood',
   webDir: 'www',
   server: {
-    androidScheme: 'https'
+    cleartext: true
   }
 };
 
